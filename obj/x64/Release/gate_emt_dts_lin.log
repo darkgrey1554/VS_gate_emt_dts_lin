@@ -1,0 +1,55 @@
+﻿  Очистка удаленного каталога проекта
+  Проверка исходных файлов
+  Удаленное копирование исходных файлов в "192.168.109.128"
+  Проверка архитектуры
+  Проверка архитектуры
+  Запуск удаленной сборки.
+  Компиляция исходных файлов:
+  main.cpp
+D:\Program Files (x86)\project\gate_emt_dts_lin\main.cpp(12,18): warning : conversion to ‘float’ from ‘int’ may alter its value [-Wconversion]
+D:\Program Files (x86)\project\gate_emt_dts_lin\main.cpp(12,18): warning :          out[i] = i;
+D:\Program Files (x86)\project\gate_emt_dts_lin\main.cpp(12,18): warning :                   ^
+D:\Program Files (x86)\project\gate_emt_dts_lin\main.cpp(17,15): warning : unused variable ‘ser1’ [-Wunused-variable]
+D:\Program Files (x86)\project\gate_emt_dts_lin\main.cpp(18,15): warning : unused variable ‘cli1’ [-Wunused-variable]
+  tcp_unitL.cpp
+D:\Program Files (x86)\project\gate_emt_dts_lin\tcp_unitL.cpp(51,34): warning : conversion to ‘uint16_t {aka short unsigned int}’ from ‘int’ may alter its value [-Wconversion]
+D:\Program Files (x86)\project\gate_emt_dts_lin\tcp_unitL.cpp(51,34): warning :      addr_server.sin_port = htons(PORT);
+D:\Program Files (x86)\project\gate_emt_dts_lin\tcp_unitL.cpp(51,34): warning :                                   ^~~~
+D:\Program Files (x86)\project\gate_emt_dts_lin\tcp_unitL.cpp(95,74): warning : passing NULL to non-pointer argument 4 of ‘ssize_t recv(int, void*, size_t, int)’ [-Wconversion-null]
+D:\Program Files (x86)\project\gate_emt_dts_lin\tcp_unitL.cpp(95,74): warning :                  count_recv += recv(client, buf_recv + count_recv, 1, NULL);
+D:\Program Files (x86)\project\gate_emt_dts_lin\tcp_unitL.cpp(95,74): warning :                                                                           ^
+D:\Program Files (x86)\project\gate_emt_dts_lin\tcp_unitL.cpp(95,74): warning : conversion to ‘int’ from ‘ssize_t {aka long int}’ may alter its value [-Wconversion]
+D:\Program Files (x86)\project\gate_emt_dts_lin\tcp_unitL.cpp(124,63): warning : passing NULL to non-pointer argument 4 of ‘ssize_t send(int, const void*, size_t, int)’ [-Wconversion-null]
+D:\Program Files (x86)\project\gate_emt_dts_lin\tcp_unitL.cpp(124,63): warning :                  send(client, buf_send, size_data * 4 + 5, NULL);
+D:\Program Files (x86)\project\gate_emt_dts_lin\tcp_unitL.cpp(124,63): warning :                                                                ^
+D:\Program Files (x86)\project\gate_emt_dts_lin\tcp_unitL.cpp(33,9): warning : unused variable ‘lenght_addr_client’ [-Wunused-variable]
+D:\Program Files (x86)\project\gate_emt_dts_lin\tcp_unitL.cpp(33,9): warning :      int lenght_addr_client = sizeof(addr_client);
+D:\Program Files (x86)\project\gate_emt_dts_lin\tcp_unitL.cpp(33,9): warning :          ^~~~~~~~~~~~~~~~~~
+D:\Program Files (x86)\project\gate_emt_dts_lin\tcp_unitL.cpp(40,12): warning : unused variable ‘f’ [-Wunused-variable]
+D:\Program Files (x86)\project\gate_emt_dts_lin\tcp_unitL.cpp(40,12): warning :      float* f;
+D:\Program Files (x86)\project\gate_emt_dts_lin\tcp_unitL.cpp(40,12): warning :             ^
+D:\Program Files (x86)\project\gate_emt_dts_lin\tcp_unitL.cpp(183,34): warning : conversion to ‘uint16_t {aka short unsigned int}’ from ‘int’ may alter its value [-Wconversion]
+D:\Program Files (x86)\project\gate_emt_dts_lin\tcp_unitL.cpp(183,34): warning :      addr_server.sin_port = htons(PORT);
+D:\Program Files (x86)\project\gate_emt_dts_lin\tcp_unitL.cpp(183,34): warning :                                   ^~~~
+D:\Program Files (x86)\project\gate_emt_dts_lin\tcp_unitL.cpp(203,43): warning : passing NULL to non-pointer argument 4 of ‘ssize_t send(int, const void*, size_t, int)’ [-Wconversion-null]
+D:\Program Files (x86)\project\gate_emt_dts_lin\tcp_unitL.cpp(203,43): warning :              send(server, buf_send, 1, NULL);
+D:\Program Files (x86)\project\gate_emt_dts_lin\tcp_unitL.cpp(203,43): warning :                                            ^
+D:\Program Files (x86)\project\gate_emt_dts_lin\tcp_unitL.cpp(207,103): warning : passing NULL to non-pointer argument 4 of ‘ssize_t recv(int, void*, size_t, int)’ [-Wconversion-null]
+D:\Program Files (x86)\project\gate_emt_dts_lin\tcp_unitL.cpp(207,103): warning :                  count_recv += recv(server, buf_recv + count_recv, size_data * 4 + 5 - count_recv, NULL);
+D:\Program Files (x86)\project\gate_emt_dts_lin\tcp_unitL.cpp(207,103): warning :                                                                                                        ^
+D:\Program Files (x86)\project\gate_emt_dts_lin\tcp_unitL.cpp(207,103): warning : conversion to ‘int’ from ‘ssize_t {aka long int}’ may alter its value [-Wconversion]
+D:\Program Files (x86)\project\gate_emt_dts_lin\tcp_unitL.cpp(160,9): warning : unused variable ‘result’ [-Wunused-variable]
+D:\Program Files (x86)\project\gate_emt_dts_lin\tcp_unitL.cpp(160,9): warning :      int result = 0;
+D:\Program Files (x86)\project\gate_emt_dts_lin\tcp_unitL.cpp(160,9): warning :          ^~~~~~
+D:\Program Files (x86)\project\gate_emt_dts_lin\tcp_unitL.cpp(163,9): warning : unused variable ‘size_addr’ [-Wunused-variable]
+D:\Program Files (x86)\project\gate_emt_dts_lin\tcp_unitL.cpp(163,9): warning :      int size_addr = sizeof(addr_server);
+D:\Program Files (x86)\project\gate_emt_dts_lin\tcp_unitL.cpp(163,9): warning :          ^~~~~~~~~
+D:\Program Files (x86)\project\gate_emt_dts_lin\tcp_unitL.cpp(172,12): warning : unused variable ‘f’ [-Wunused-variable]
+D:\Program Files (x86)\project\gate_emt_dts_lin\tcp_unitL.cpp(172,12): warning :      float* f;
+D:\Program Files (x86)\project\gate_emt_dts_lin\tcp_unitL.cpp(172,12): warning :             ^
+D:\Program Files (x86)\project\gate_emt_dts_lin\tcp_unitL.cpp(12,1): warning : control reaches end of non-void function [-Wreturn-type]
+D:\Program Files (x86)\project\gate_emt_dts_lin\tcp_unitL.cpp(12,1): warning :  }
+D:\Program Files (x86)\project\gate_emt_dts_lin\tcp_unitL.cpp(12,1): warning :  ^
+D:\Program Files (x86)\project\gate_emt_dts_lin\tcp_unitL.cpp(88,42): warning : ‘addr_client.sockaddr_in::sin_port’ may be used uninitialized in this function [-Wmaybe-uninitialized]
+  Связывание объектов
+  gate_emt_dts_lin.vcxproj -> D:\Program Files (x86)\project\gate_emt_dts_lin\bin\x64\Release\gate_emt_dts_lin.out
