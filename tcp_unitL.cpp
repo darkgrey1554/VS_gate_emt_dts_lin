@@ -3,23 +3,258 @@
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <unistd.h>
+#include <sys/time.h>
 
-
-tcp_unit* tcp_unit::create_tcp_unit(std::string type_unit, int id, std::string ip, int port, std::string t_data, int s_data, char* mass_data, int bais)
+int conver_IPstr_int(const char* str)
 {
-    if (type_unit == "Server") return new tcp_server(id, ip, port, t_data, s_data, mass_data, bais);
-    if (type_unit == "Client") return new tcp_client(id, ip, port, t_data, s_data, mass_data, bais);
+    int res = 0;
+    int var = 0;
+    int count = 0;
+    int count2 = 0;
+    const char* simvol = str;
+
+
+    while (*simvol != '\000')//while (*simvol != '\0')
+    {
+        while (*simvol != '\000' && *simvol != '.') //while (*simvol != '\0' && *simvol != '.')
+        {
+            if (*simvol < 0x30 || *simvol > 0x39) return -1;
+            var *= 10;
+            var += *simvol - 0x30;
+            count++;
+            simvol++;
+        }
+        if (*simvol == '.') simvol++;
+        count2++;
+        if (count > 3) return -1;
+        if (count2 > 4) return -1;
+        count = 0;
+        res = res << 8;
+        res += var;
+        var = 0;
+    }
+    return res;
 }
 
-tcp_server::tcp_server(int id, std::string ip, int port, std::string t_data, int s_data, char* m_data, int bais)
+std::ostream& operator<<(std::ostream& out, TypeSignal& m)
 {
+    if (m == TypeSignal::Analog) out << "Analog";
+    if (m == TypeSignal::Discrete) out << "Discrete";
+    if (m == TypeSignal::Nothing) out << "Nothing";
+    return out;
+}
+
+std::ostream& operator<<(std::ostream& out, TypeUnitGate& m)
+{
+    if (m == TypeUnitGate::CLIENT) out << "CLIENT";
+    if (m == TypeUnitGate::SERVER) out << "SERVER";
+    if (m == TypeUnitGate::EMPTY) out << "EMPTY";
+    return out;
+}
+
+int read_config_file(const char* Namefile, std::list<ConfigSharedMemory>* listsharmem, std::list<ConfigUnitGate>* listunitgate)
+{
+    FILE* config_file = NULL;
+    char simvol = 0;
+    std::string str_info;
+    std::string helpstr;
+    int res_read = 0;
+    int pos[2] = { 0,0 };
+    ConfigSharedMemory UnitMem;
+    ConfigUnitGate UnitGate;
+
+    config_file = fopen(Namefile, "r");
+    if (config_file == NULL) return -1;
+
+    for (;;)
+    {
+        simvol = 0;
+        str_info.clear();
+        while (simvol != '\n' && res_read != EOF)
+        {
+            res_read = fscanf(config_file, "%c", &simvol);
+            if ((simvol > 0x1F || simvol == '\t') && res_read != EOF) str_info += simvol;
+        }
+
+        if (str_info == "[List]" || res_read == EOF || str_info == "[GATE]" && listunitgate == NULL)
+        {
+            if (res_read == EOF)
+            {
+                std::cout << "MAIT\tERROR_FORMATION_OF_CONFIG_FILE" << std::endl;
+                return -1;
+            }
+            break;
+        }
+
+        if (str_info.substr(0, 4) == "@EMT")
+        {
+            pos[0] = 0;
+            pos[1] = 0;
+            UnitMem.clear();
+
+            if (str_info.find("Input") != -1)
+            {
+                UnitMem.type_data = TypeData::InPut;
+            }
+            else if (str_info.find("Output") != -1)
+            {
+                UnitMem.type_data = TypeData::OutPut;
+            }
+            else
+            {
+                std::cout << "MAIT\tERROR_FORMATION_OF_CONFIG_FILE" << std::endl;
+                return -1;
+            }
+
+            if (str_info.find("Discrete") != -1)
+            {
+                UnitMem.type_signal = TypeSignal::Discrete;
+            }
+            else if (str_info.find("Analog") != -1)
+            {
+                UnitMem.type_signal = TypeSignal::Analog;
+            }
+            else
+            {
+                std::cout << "MAIT\tERROR_FORMATION_OF_CONFIG_FILE" << std::endl;
+                return -1;
+            }
+
+            pos[0] = str_info.find('\t', 0);
+            if (pos[0] == -1)
+            {
+                std::cout << "MAINT\tERROR_FORMATION_OF_CONFIG_FILE" << std::endl;
+                return -1;
+            }
+
+            pos[1] = str_info.find('\t', (size_t)pos[0] + 1);
+            if (pos[1] == -1)
+            {
+                std::cout << "MAINT\tERROR_FORMATION_OF_CONFIG_FILE" << std::endl;
+                return -1;
+            }
+            helpstr.clear();
+            helpstr = str_info.substr((size_t)pos[0] + 1, (size_t)pos[1] - pos[0] - 1);
+            UnitMem.size = atoi(helpstr.c_str());
+            helpstr.clear();
+            helpstr = str_info.substr((size_t)pos[1] + 1);
+            UnitMem.name_memory = helpstr;
+            listsharmem->push_back(UnitMem);
+        }
+        else if (str_info.substr(0, 5) == "@GATE")
+        {
+            pos[0] = 0;
+            pos[1] = 0;
+            UnitGate.clear();
+
+            if (str_info.find("Input") != -1)
+            {
+                UnitGate.type_unit = TypeUnitGate::CLIENT;
+            }
+            else if (str_info.find("Output") != -1)
+            {
+                UnitGate.type_unit = TypeUnitGate::SERVER;
+            }
+            else
+            {
+                std::cout << "MAIT\tERROR_FORMATION_OF_CONFIG_FILE" << std::endl;
+                return -1;
+            }
+
+            if (str_info.find("Discrete") != -1)
+            {
+                UnitGate.type_signal = TypeSignal::Discrete;
+            }
+            else if (str_info.find("Analog") != -1)
+            {
+                UnitGate.type_signal = TypeSignal::Analog;
+            }
+            else
+            {
+                std::cout << "MAIT\tERROR_FORMATION_OF_CONFIG_FILE" << std::endl;
+                return -1;
+            }
+
+            pos[0] = str_info.find('\t', 0);
+            if (pos[0] == -1)
+            {
+                std::cout << "MAINT\tERROR_FORMATION_OF_CONFIG_FILE" << std::endl;
+                return -1;
+            }
+            pos[1] = str_info.find('\t', (size_t)pos[0] + 1);
+            if (pos[1] == -1)
+            {
+                std::cout << "MAINT\tERROR_FORMATION_OF_CONFIG_FILE" << std::endl;
+                return -1;
+            }
+
+            helpstr.clear();
+            helpstr = str_info.substr((size_t)pos[0] + 1, (size_t)pos[1] - pos[0] - 1);
+            UnitGate.offset = atoi(helpstr.c_str());
+
+            pos[0] = pos[1];
+            pos[1] = str_info.find('\t', (size_t)pos[0] + 1);
+            if (pos[1] == -1)
+            {
+                std::cout << "MAINT\tERROR_FORMATION_OF_CONFIG_FILE" << std::endl;
+                return -1;
+            }
+            helpstr.clear();
+            helpstr = str_info.substr((size_t)pos[0] + 1, (size_t)pos[1] - pos[0] - 1);
+            UnitGate.size_data = atoi(helpstr.c_str());
+
+            pos[0] = pos[1];
+            pos[1] = str_info.find('\t', (size_t)pos[0] + 1);
+            if (pos[1] == -1)
+            {
+                std::cout << "MAINT\tERROR_FORMATION_OF_CONFIG_FILE" << std::endl;
+                return -1;
+            }
+            helpstr.clear();
+            helpstr = str_info.substr((size_t)pos[0] + 1, (size_t)pos[1] - pos[0] - 1);
+            UnitGate.IP = helpstr.c_str();
+
+            pos[0] = pos[1];
+            pos[1] = str_info.find('\t', (size_t)pos[0] + 1);
+            if (pos[1] == -1)
+            {
+                std::cout << "MAINT\tERROR_FORMATION_OF_CONFIG_FILE" << std::endl;
+                return -1;
+            }
+            helpstr.clear();
+            helpstr = str_info.substr((size_t)pos[0] + 1, (size_t)pos[1] - pos[0] - 1);
+            UnitGate.Port = atoi(helpstr.c_str());
+
+            pos[0] = pos[1];
+            helpstr.clear();
+            helpstr = str_info.substr((size_t)pos[0] + 1);
+            UnitGate.frequency = atoi(helpstr.c_str());
+            listunitgate->push_back(UnitGate);
+        }
+        else if (str_info.substr(0, 5) != "[EMT]" && str_info.substr(0, 6) != "[GATE]")
+        {
+            std::cout << "MAIN\tERROR_FORMATION_OF_CONFIG_FILE" << std::endl;
+            return -1;
+        }
+    }
+    return 0;
+}
+
+
+tcp_unit* tcp_unit::create_tcp_unit(ConfigUnitGate config, int id)
+{
+    if (config.type_unit == TypeUnitGate::SERVER) return new tcp_server(config, id);
+    if (config.type_unit == TypeUnitGate::CLIENT) return new tcp_client(config, id);
+}
+
+tcp_server::tcp_server(ConfigUnitGate config, int id)
+{
+    set = config;
     ID = id;
-    IP_Server = ip;
-    PORT = port;
-    size_data = s_data;
-    mass_data = m_data;
-    type_data = t_data;
-    offset = bais * 4; /// пока умнодение на 4 (учет размера int float)
+    if (set.type_signal == TypeSignal::Analog || set.type_signal == TypeSignal::Discrete)
+    {
+        s_data = 4;
+    }
     thread_unit = std::thread(&tcp_server::thread_tcp_server, this);
 }
 
@@ -34,10 +269,11 @@ int tcp_server::thread_tcp_server()
     char* buf_recv = new char[10];
     int count_recv = 0;
     int num_recv = 1;
-    char* buf_send = new char[size_data * 4 + 4 + 1];
+    char* buf_send = new char[set.size_data * s_data + 4 + 1];
     char* ibuf_send;
     char* imass_data;
     float* f;
+    int ip;
 
     listensocket = socket(AF_INET, SOCK_STREAM, 0);
     if (listensocket == -1)
@@ -46,9 +282,15 @@ int tcp_server::thread_tcp_server()
         return -1;
     }
 
+    ip = conver_IPstr_int(set.IP.c_str());
+    if (ip == -1)
+    {
+        std::cout << "SERVER ID: " << ID << "/tERROR INITIALIZATION ERROR: BED IP" << std::endl;
+        return -1;
+    }
     addr_server.sin_family = AF_INET;
-    addr_server.sin_addr.s_addr = htonl(INADDR_LOOPBACK); //inet_addr(IP_Server.c_str());
-    addr_server.sin_port = htons(PORT);
+    addr_server.sin_addr.s_addr = htonl(ip); //inet_addr(IP_Server.c_str());
+    addr_server.sin_port = htons(set.Port);
 
     result = bind(listensocket, (sockaddr*)&addr_server, sizeof(addr_server));
     if (result == -1)
@@ -67,9 +309,9 @@ int tcp_server::thread_tcp_server()
     }
 
     std::cout << "SERVER INITIALIZED ID: " << ID
-        << " IP: " << IP_Server
-        << " PORT: " << PORT
-        << " TYPE_DATA: " << type_data << std::endl;
+        << " IP: " << set.IP
+        << " PORT: " << set.Port
+        << " TYPE_SIGNAL: " << set.type_signal << std::endl;
 
     for (;;)
     {
@@ -109,19 +351,22 @@ int tcp_server::thread_tcp_server()
                 for (int i = 0; i < 4; i++)
                 {
                     ibuf_send++;
-                    *ibuf_send = *(((char*)&size_data) + i);
+                    *ibuf_send = *(((char*)&set.size_data) + i);
                 }
 
                 ibuf_send++;
-                imass_data = mass_data;
-                for (int i = 0; i < size_data * 4; i++)
+                imass_data = set.buf_data;
+
+                pthread_mutex_lock(&set.mutex_data);
+                for (int i = 0; i < set.size_data * s_data; i++)
                 {
                     *ibuf_send = *imass_data;
                     ibuf_send++;
                     imass_data++;
                 }
+                pthread_mutex_unlock(&set.mutex_data);
 
-                send(client, buf_send, size_data * 4 + 5, NULL);
+                send(client, buf_send, set.size_data * s_data + 5, NULL);
             }
         }
     }
@@ -143,15 +388,14 @@ void tcp_server::close_tcp_unit()
 
 
 
-tcp_client::tcp_client(int id, std::string ip, int port, std::string t_data, int s_data, char* m_data, int bais)
+tcp_client::tcp_client(ConfigUnitGate config, int id)
 {
+    set=config;
     ID = id;
-    IP_Server = ip;
-    PORT = port;
-    size_data = s_data;
-    mass_data = m_data;
-    type_data = t_data;
-    offset = bais * 4; /// пока умнодение на 4 (учет размера int float)
+    if (set.type_signal == TypeSignal::Analog || set.type_signal == TypeSignal::Discrete)
+    {
+        s_data = 4;
+    }
     thread_unit = std::thread(&tcp_client::thread_tcp_client, this);
 }
 
@@ -162,14 +406,14 @@ int tcp_client::thread_tcp_client()
     sockaddr_in addr_server;
     int size_addr = sizeof(addr_server);
 
-    char* buf_recv = new char[size_data * 4 + 5];
+    char* buf_recv = new char[set.size_data * s_data + 5];
     int count_recv = 0;
     int num_recv = 0;
     char* ibuf_recv;
     char* imass_data;
 
     char* buf_send = new char[1];
-    float* f;
+    int ip;
 
     server = socket(AF_INET, SOCK_STREAM, 0);
     if (server == -1)
@@ -178,23 +422,31 @@ int tcp_client::thread_tcp_client()
         return -1;
     }
 
+    ip = conver_IPstr_int(set.IP.c_str());
+    if (ip == -1)
+    {
+        std::cout << "CLIENT ID: " << ID << "/tERROR INITIALIZATION ERROR: BED IP" << std::endl;
+        return -1;
+    }
+    std::cout << std::hex << ip << std::endl;
+    std::cout << std::dec << set.Port << std::endl;
     addr_server.sin_family = AF_INET;
-    addr_server.sin_addr.s_addr = htonl(INADDR_LOOPBACK);//inet_addr(IP_Server.c_str());
-    addr_server.sin_port = htons(PORT);
+    addr_server.sin_addr.s_addr = htonl(ip);//inet_addr(IP_Server.c_str());
+    addr_server.sin_port = htons(set.Port);
 
     for (;;)
     {
 
         if (connect(server, (sockaddr*)&addr_server, sizeof(addr_server)) == -1)
         {
-            std::cout << "CLIENT ID: " << ID << "/tERROR CONNECTION WITH SERVER CODE ERROR: " << std::endl;
+            std::cout << "CLIENT ID: " << ID << "\tERROR CONNECTION WITH SERVER CODE ERROR: " << std::endl;
             //closesocket(server);
-            //Sleep(2000);
+            sleep(2);
             continue;
         }
         else
         {
-            std::cout << "CLIENT ID: " << ID << " CONNECTED WITH SERVER IP: " << IP_Server << " PORT: " << PORT << std::endl;
+            std::cout << "CLIENT ID: " << ID << " CONNECTED WITH SERVER IP: " << set.IP << " PORT: " << set.Port << std::endl;
         }
 
         for (;;)
@@ -204,22 +456,23 @@ int tcp_client::thread_tcp_client()
             count_recv = 0;
             for (;;)
             {
-                count_recv += recv(server, buf_recv + count_recv, size_data * 4 + 5 - count_recv, NULL);
+                count_recv += recv(server, buf_recv + count_recv, set.size_data * s_data + 5 - count_recv, NULL);
                 if (count_recv < 5) continue;
                 num_recv = *((int*)(buf_recv + 1));
                 if (count_recv < num_recv * 4 + 5) { continue; }
                 else break;
             }
             ibuf_recv = buf_recv + 5;
-            imass_data = mass_data;
-
+            imass_data = set.buf_data;
+            
+            pthread_mutex_lock(&set.mutex_data);
             for (int i = 0; i < num_recv * 4; i++)
             {
                 *imass_data = *ibuf_recv;
                 imass_data++;
                 ibuf_recv++;
             }
-
+            pthread_mutex_unlock(&set.mutex_data);
             sleep(2);
 
         }

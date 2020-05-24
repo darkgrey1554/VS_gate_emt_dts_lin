@@ -1,0 +1,10 @@
+[EMT]
+@EMT_InputAnalog	100	sharmemory_emt_analog_in
+@EMT_OutputAnalog	100	sharmemory_emt_analog_out
+[GATE]
+@GATE_InputAnalog	0	100	127.0.0.1	32000	1000
+@GATE_OutputAnalog	0	100	127.0.0.1	32000	1000
+[List]
+@KKS
+EMT	RAEK
+kksN1	kksK1

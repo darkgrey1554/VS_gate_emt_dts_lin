@@ -1,0 +1,1 @@
+g++ -o "/home/linux/projects/gate_emt_dts_lin/bin/x64/Debug/gate_emt_dts_lin.out" -Wl,--no-undefined -Wl,-z,relro -Wl,-z,now -Wl,-z,noexecstack -pthread /home/linux/projects/gate_emt_dts_lin/obj/x64/Debug/main.o /home/linux/projects/gate_emt_dts_lin/obj/x64/Debug/tcp_unitL.o
