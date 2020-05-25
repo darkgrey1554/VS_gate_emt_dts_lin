@@ -5,6 +5,9 @@
 #include <unistd.h>
 #include <sys/time.h>
 
+
+
+///  --- вспомогательные функции --- ///
 int conver_IPstr_int(const char* str)
 {
     int res = 0;
@@ -241,11 +244,15 @@ int read_config_file(const char* Namefile, std::list<ConfigSharedMemory>* listsh
 }
 
 
+/// --- tcp_unit -- ///
 tcp_unit* tcp_unit::create_tcp_unit(ConfigUnitGate config, int id)
 {
     if (config.type_unit == TypeUnitGate::SERVER) return new tcp_server(config, id);
     if (config.type_unit == TypeUnitGate::CLIENT) return new tcp_client(config, id);
 }
+
+
+/// --- tcp_server --- ///
 
 tcp_server::tcp_server(ConfigUnitGate config, int id)
 {
@@ -268,12 +275,18 @@ int tcp_server::thread_tcp_server()
     int lenght_addr_client = sizeof(addr_client);
     char* buf_recv = new char[10];
     int count_recv = 0;
+    int res_recv = 0;
     int num_recv = 1;
     char* buf_send = new char[set.size_data * s_data + 4 + 1];
     char* ibuf_send;
     char* imass_data;
     float* f;
     int ip;
+
+    timeval timenow;
+    timeval timelast;
+    float time;
+
 
     listensocket = socket(AF_INET, SOCK_STREAM, 0);
     if (listensocket == -1)
@@ -300,10 +313,10 @@ int tcp_server::thread_tcp_server()
 
     }
 
-    if (listen(listensocket, 1) == -1)
+    if (listen(listensocket, 3) == -1)
     {
         std::cout << "SERVER ID: " << ID << "\tERROR INITIALIZATION CODE ERROR: " << std::endl;
-        //close(listensocket);
+        close(listensocket);
         //closesocket(listensocket);
         return -1;
     }
@@ -319,6 +332,7 @@ int tcp_server::thread_tcp_server()
         if (client == -1)
         {
             std::cout << "SERVER ID: " << ID << "\tERROR CONNECTION CLIENT CODE ERROR: " << std::endl;
+            close(client);
             continue;
         }
 
@@ -329,20 +343,30 @@ int tcp_server::thread_tcp_server()
             //<< (int)addr_client.sin_addr.S_un.S_un_b.s_b4
             << "  PORT: " << addr_client.sin_port << std::endl;
 
+        gettimeofday(&timelast, NULL);
+        gettimeofday(&timenow, NULL);
         for (;;)
         {
             count_recv = 0;
+            res_recv = 0;
             for (;;)
             {
-                count_recv += recv(client, buf_recv + count_recv, 1, NULL);
-                if (count_recv == num_recv) break;
-                if (count_recv == 0) break;
+                res_recv= recv(client, buf_recv + count_recv, num_recv- count_recv, NULL);
+                if (res_recv == 0) break;
+                count_recv+=res_recv;
+                if (count_recv == num_recv) break; 
             }
-            if (count_recv == 0)
+            if (res_recv == 0)
             {
                 std::cout << "SERVER ID: " << ID << "/tERROR RECV CODE ERROR: " << std::endl;
+                close(client);
                 break;
             }
+
+            gettimeofday(&timenow, NULL);
+            time = (timenow.tv_sec - timelast.tv_sec) * 1000. + (timenow.tv_usec - timelast.tv_usec) / 1000.;
+            if (time > set.frequency) std::cout << "SERVER ID: " << ID << "\tWARNING: LIMIT_TIME_MESSENG_READING_EXCEEDED " << time << " ms" << std::endl;
+            gettimeofday(&timelast, NULL);
 
             if (buf_recv[0] == 3)
             {
@@ -374,7 +398,6 @@ int tcp_server::thread_tcp_server()
     return 0;
 }
 
-
 void tcp_server::restart_thread()
 {
     std::cout << "restart_thread" << std::endl;
@@ -386,7 +409,7 @@ void tcp_server::close_tcp_unit()
 }
 
 
-
+/// --- tcp_client --- ///
 
 tcp_client::tcp_client(ConfigUnitGate config, int id)
 {
@@ -411,16 +434,14 @@ int tcp_client::thread_tcp_client()
     int num_recv = 0;
     char* ibuf_recv;
     char* imass_data;
-
     char* buf_send = new char[1];
     int ip;
+    int res_recv;
 
-    server = socket(AF_INET, SOCK_STREAM, 0);
-    if (server == -1)
-    {
-        std::cout << "CLIENT ID: " << ID << "/tERROR INITIALIZATION CODE ERROR: "<< std::endl;
-        return -1;
-    }
+    timeval timenow;
+    timeval timelast;
+    float time;
+
 
     ip = conver_IPstr_int(set.IP.c_str());
     if (ip == -1)
@@ -428,19 +449,24 @@ int tcp_client::thread_tcp_client()
         std::cout << "CLIENT ID: " << ID << "/tERROR INITIALIZATION ERROR: BED IP" << std::endl;
         return -1;
     }
-    std::cout << std::hex << ip << std::endl;
-    std::cout << std::dec << set.Port << std::endl;
+
     addr_server.sin_family = AF_INET;
     addr_server.sin_addr.s_addr = htonl(ip);//inet_addr(IP_Server.c_str());
     addr_server.sin_port = htons(set.Port);
 
     for (;;)
     {
+        server = socket(AF_INET, SOCK_STREAM, 0);
+        if (server == -1)
+        {
+            std::cout << "CLIENT ID: " << ID << "/tERROR INITIALIZATION CODE ERROR: " << errno << std::endl;
+            return -1;
+        }
 
         if (connect(server, (sockaddr*)&addr_server, sizeof(addr_server)) == -1)
         {
-            std::cout << "CLIENT ID: " << ID << "\tERROR CONNECTION WITH SERVER CODE ERROR: " << std::endl;
-            //closesocket(server);
+            std::cout << "CLIENT ID: " << ID << "\tERROR CONNECTION WITH SERVER CODE ERROR: " << errno << std::endl;
+            close(server);
             sleep(2);
             continue;
         }
@@ -449,18 +475,42 @@ int tcp_client::thread_tcp_client()
             std::cout << "CLIENT ID: " << ID << " CONNECTED WITH SERVER IP: " << set.IP << " PORT: " << set.Port << std::endl;
         }
 
+        gettimeofday(&timelast, NULL);
+        gettimeofday(&timenow, NULL);
+
         for (;;)
         {
+            gettimeofday(&timenow, NULL);
+            time = (timenow.tv_sec - timelast.tv_sec) * 1000. + (timenow.tv_usec - timelast.tv_usec) / 1000.;
+            if (time > set.frequency) std::cout << "CLIENT ID: " << ID << "\tWARNING: LIMIT_TIME_MESSENG_READING_EXCEEDED " << time <<" ms"<<std::endl;
+
+            for (;;)
+            {
+                gettimeofday(&timenow, NULL);
+                time = (timenow.tv_sec - timelast.tv_sec) * 1000. + (timenow.tv_usec - timelast.tv_usec) / 1000.;
+                if (time > set.frequency - TIME_DIV) break;
+                usleep(1000);
+            }
+            gettimeofday(&timelast, NULL);
+
             buf_send[0] = 3;
             send(server, buf_send, 1, NULL);
             count_recv = 0;
+            res_recv = 0;
             for (;;)
             {
-                count_recv += recv(server, buf_recv + count_recv, set.size_data * s_data + 5 - count_recv, NULL);
+                res_recv= recv(server, buf_recv + count_recv, set.size_data * s_data + 5 - count_recv, NULL);
+                if (res_recv == 0) break;
+                count_recv += res_recv;
                 if (count_recv < 5) continue;
                 num_recv = *((int*)(buf_recv + 1));
                 if (count_recv < num_recv * 4 + 5) { continue; }
                 else break;
+            }
+            if (res_recv == 0)
+            {
+                close(server);
+                break;
             }
             ibuf_recv = buf_recv + 5;
             imass_data = set.buf_data;
@@ -473,8 +523,6 @@ int tcp_client::thread_tcp_client()
                 ibuf_recv++;
             }
             pthread_mutex_unlock(&set.mutex_data);
-            sleep(2);
-
         }
     }
 

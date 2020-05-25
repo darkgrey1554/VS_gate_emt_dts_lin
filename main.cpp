@@ -2,10 +2,25 @@
 #include "tcp_unitL.h"
 #include <unistd.h>
 #include <pthread.h>
-
+#include <sys/time.h>
 
 int main()
 {
+    /*timeval timelast;
+    timeval timenow;
+    float time = 0.;
+    char c;
+
+    gettimeofday(&timelast, NULL);
+    sleep(2);
+    usleep(15000);
+    gettimeofday(&timenow, NULL);
+    
+    time = (timenow.tv_sec - timelast.tv_sec) * 1000.0 + (timenow.tv_usec - timelast.tv_usec) / 1000.0;
+    std::cout << time << std::endl;
+    std::cin >> c;*/
+
+
     pthread_mutex_t mut_out = PTHREAD_MUTEX_INITIALIZER;
     pthread_mutex_t mut_in = PTHREAD_MUTEX_INITIALIZER;
     
@@ -22,11 +37,11 @@ int main()
     
 
     float* out = new float[100];
-    float* in = new float[100];
+    /*float* in = new float[100];
     for (int i = 0; i < 100; i++)
     {
         out[i] = i;
-    }
+    }*/
 
     std::cout << "Hello World!\n";
 
@@ -39,20 +54,19 @@ int main()
         }
         if ((&*iter)->type_unit == TypeUnitGate::CLIENT)
         {
-            (&*iter)->buf_data = (char*)in;
-            (&*iter)->mutex_data = mut_in;
-        }
-            ;
-        
+            (&*iter)->buf_data = (char*)out;
+            (&*iter)->mutex_data = mut_out;
+        }  
     }
 
+    /*
     for (auto iter = gaties.begin(); iter != gaties.end(); iter++)
     {
         if ((&*iter)->type_unit == TypeUnitGate::SERVER) std::cout << (int*)(&*iter)->buf_data << "  ---  " << out << std::endl;
         if ((&*iter)->type_unit == TypeUnitGate::CLIENT) std::cout << (int*)(&*iter)->buf_data << "  ---  " << in << std::endl;
 
         std::cout << (&*iter)->type_unit << " " << (&*iter)->Port << " " << (&*iter)->IP << std::endl;
-    }
+    }*/
 
 
     std::list<tcp_unit*> units_gate;
@@ -66,7 +80,7 @@ int main()
 next:
     sleep(2);
 
-    pthread_mutex_lock(&mut_out);
+    /*pthread_mutex_lock(&mut_out);
     for (int i = 0; i < 100; i++)
     {
         out[i]++;
@@ -77,7 +91,7 @@ next:
     std::cout << in[0] << std::endl;
     std::cout << in[99] << std::endl;
     pthread_mutex_unlock(&mut_in);
-
+    */
     goto next;
     return 0;
 }
