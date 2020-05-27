@@ -1,9 +1,74 @@
-﻿  Проверка исходных файлов
+﻿  Очистка удаленного каталога проекта
+  Проверка исходных файлов
   Удаленное копирование исходных файлов в "192.168.109.128"
   Проверка архитектуры
   Проверка архитектуры
   Запуск удаленной сборки.
   Компиляция исходных файлов:
+  GatePPDClient.cpp
+D:\Program Files (x86)\project\gate_emt_dts_lin\GatePPDClient.cpp(45,35): warning : conversion to ‘int’ from ‘std::__cxx11::basic_string<char>::size_type {aka long unsigned int}’ may alter its value [-Wconversion]
+D:\Program Files (x86)\project\gate_emt_dts_lin\GatePPDClient.cpp(45,35): warning :              pos[0] = str_info.find('\t', 0);
+D:\Program Files (x86)\project\gate_emt_dts_lin\GatePPDClient.cpp(45,35): warning :                       ~~~~~~~~~~~~~^~~~~~~~~
+D:\Program Files (x86)\project\gate_emt_dts_lin\GatePPDClient.cpp(51,35): warning : conversion to ‘int’ from ‘std::__cxx11::basic_string<char>::size_type {aka long unsigned int}’ may alter its value [-Wconversion]
+D:\Program Files (x86)\project\gate_emt_dts_lin\GatePPDClient.cpp(51,35): warning :              pos[1] = str_info.find('\t', (size_t)pos[0] + 1);
+D:\Program Files (x86)\project\gate_emt_dts_lin\GatePPDClient.cpp(51,35): warning :                       ~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~
+D:\Program Files (x86)\project\gate_emt_dts_lin\GatePPDClient.cpp(63,35): warning : conversion to ‘int’ from ‘std::__cxx11::basic_string<char>::size_type {aka long unsigned int}’ may alter its value [-Wconversion]
+D:\Program Files (x86)\project\gate_emt_dts_lin\GatePPDClient.cpp(63,35): warning :              pos[1] = str_info.find('\t', (size_t)pos[0] + 1);
+D:\Program Files (x86)\project\gate_emt_dts_lin\GatePPDClient.cpp(63,35): warning :                       ~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~
+D:\Program Files (x86)\project\gate_emt_dts_lin\GatePPDClient.cpp(74,35): warning : conversion to ‘int’ from ‘std::__cxx11::basic_string<char>::size_type {aka long unsigned int}’ may alter its value [-Wconversion]
+D:\Program Files (x86)\project\gate_emt_dts_lin\GatePPDClient.cpp(74,35): warning :              pos[1] = str_info.find('\t', (size_t)pos[0] + 1);
+D:\Program Files (x86)\project\gate_emt_dts_lin\GatePPDClient.cpp(74,35): warning :                       ~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~
+D:\Program Files (x86)\project\gate_emt_dts_lin\GatePPDClient.cpp(82,35): warning : conversion to ‘int’ from ‘std::__cxx11::basic_string<char>::size_type {aka long unsigned int}’ may alter its value [-Wconversion]
+D:\Program Files (x86)\project\gate_emt_dts_lin\GatePPDClient.cpp(82,35): warning :              pos[1] = str_info.find('\t', (size_t)pos[0] + 1);
+D:\Program Files (x86)\project\gate_emt_dts_lin\GatePPDClient.cpp(82,35): warning :                       ~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~
+D:\Program Files (x86)\project\gate_emt_dts_lin\GatePPDClient.cpp(94,41): warning : comparison between signed and unsigned integer expressions [-Wsign-compare]
+D:\Program Files (x86)\project\gate_emt_dts_lin\GatePPDClient.cpp(94,41): warning :              if (str_info.find("Analog") != -1)
+D:\Program Files (x86)\project\gate_emt_dts_lin\GatePPDClient.cpp(94,41): warning :                  ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~
+D:\Program Files (x86)\project\gate_emt_dts_lin\GatePPDClient.cpp(96,44): warning : comparison between signed and unsigned integer expressions [-Wsign-compare]
+D:\Program Files (x86)\project\gate_emt_dts_lin\GatePPDClient.cpp(96,44): warning :                  if (str_info.find("Input") != -1)
+D:\Program Files (x86)\project\gate_emt_dts_lin\GatePPDClient.cpp(96,44): warning :                      ~~~~~~~~~~~~~~~~~~~~~~~^~~~~
+D:\Program Files (x86)\project\gate_emt_dts_lin\GatePPDClient.cpp(101,50): warning : comparison between signed and unsigned integer expressions [-Wsign-compare]
+D:\Program Files (x86)\project\gate_emt_dts_lin\GatePPDClient.cpp(101,50): warning :                  else if (str_info.find("Output") != -1)
+D:\Program Files (x86)\project\gate_emt_dts_lin\GatePPDClient.cpp(101,50): warning :                           ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~
+D:\Program Files (x86)\project\gate_emt_dts_lin\GatePPDClient.cpp(106,48): warning : comparison between signed and unsigned integer expressions [-Wsign-compare]
+D:\Program Files (x86)\project\gate_emt_dts_lin\GatePPDClient.cpp(106,48): warning :              else if (str_info.find("Discrete") != -1)
+D:\Program Files (x86)\project\gate_emt_dts_lin\GatePPDClient.cpp(106,48): warning :                       ~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~
+D:\Program Files (x86)\project\gate_emt_dts_lin\GatePPDClient.cpp(108,44): warning : comparison between signed and unsigned integer expressions [-Wsign-compare]
+D:\Program Files (x86)\project\gate_emt_dts_lin\GatePPDClient.cpp(108,44): warning :                  if (str_info.find("Input") != -1)
+D:\Program Files (x86)\project\gate_emt_dts_lin\GatePPDClient.cpp(108,44): warning :                      ~~~~~~~~~~~~~~~~~~~~~~~^~~~~
+D:\Program Files (x86)\project\gate_emt_dts_lin\GatePPDClient.cpp(113,50): warning : comparison between signed and unsigned integer expressions [-Wsign-compare]
+D:\Program Files (x86)\project\gate_emt_dts_lin\GatePPDClient.cpp(113,50): warning :                  else if (str_info.find("Output") != -1)
+D:\Program Files (x86)\project\gate_emt_dts_lin\GatePPDClient.cpp(113,50): warning :                           ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~
+D:\Program Files (x86)\project\gate_emt_dts_lin\GatePPDClient.cpp(150,35): warning : argument to ‘sizeof’ in ‘void* memset(void*, int, size_t)’ call is the same expression as the destination; did you mean to dereference it? [-Wsizeof-pointer-memaccess]
+D:\Program Files (x86)\project\gate_emt_dts_lin\GatePPDClient.cpp(150,35): warning :      memset(bufAnalogOut, 0, sizeof(bufAnalogOut));
+D:\Program Files (x86)\project\gate_emt_dts_lin\GatePPDClient.cpp(150,35): warning :                                    ^
+D:\Program Files (x86)\project\gate_emt_dts_lin\GatePPDClient.cpp(178,35): warning : argument to ‘sizeof’ in ‘void* memset(void*, int, size_t)’ call is the same pointer type ‘float*’ as the destination; expected ‘float’ or an explicit length [-Wsizeof-pointer-memaccess]
+D:\Program Files (x86)\project\gate_emt_dts_lin\GatePPDClient.cpp(178,35): warning :      memset(bufAnalogOut, 0, sizeof(bufAnalogIn));
+D:\Program Files (x86)\project\gate_emt_dts_lin\GatePPDClient.cpp(178,35): warning :                                    ^
+  main.cpp
+D:\Program Files (x86)\project\gate_emt_dts_lin\main.cpp(138,6): warning : "/*" within comment [-Wcomment]
+D:\Program Files (x86)\project\gate_emt_dts_lin\main.cpp(138,6): warning :       /*
+D:\Program Files (x86)\project\gate_emt_dts_lin\main.cpp(139,5): warning : "/*" within comment [-Wcomment]
+D:\Program Files (x86)\project\gate_emt_dts_lin\main.cpp(139,5): warning :      /*timeval timelast;
+D:\Program Files (x86)\project\gate_emt_dts_lin\main.cpp(170,5): warning : "/*" within comment [-Wcomment]
+D:\Program Files (x86)\project\gate_emt_dts_lin\main.cpp(170,5): warning :      /*float* in = new float[100];
+D:\Program Files (x86)\project\gate_emt_dts_lin\main.cpp(192,5): warning : "/*" within comment [-Wcomment]
+D:\Program Files (x86)\project\gate_emt_dts_lin\main.cpp(192,5): warning :      /*
+D:\Program Files (x86)\project\gate_emt_dts_lin\main.cpp(65,23): warning : comparison between signed and unsigned integer expressions [-Wsign-compare]
+D:\Program Files (x86)\project\gate_emt_dts_lin\main.cpp(65,23): warning :      for (int i = 0; i < gatePPD->SndAnalogData.size(); i++)
+D:\Program Files (x86)\project\gate_emt_dts_lin\main.cpp(65,23): warning :                      ~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+D:\Program Files (x86)\project\gate_emt_dts_lin\main.cpp(70,23): warning : comparison between signed and unsigned integer expressions [-Wsign-compare]
+D:\Program Files (x86)\project\gate_emt_dts_lin\main.cpp(70,23): warning :      for (int i = 0; i < gatePPD->SndAnalogData.size(); i++)
+D:\Program Files (x86)\project\gate_emt_dts_lin\main.cpp(70,23): warning :                      ~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+D:\Program Files (x86)\project\gate_emt_dts_lin\main.cpp(81,26): warning : conversion to ‘float’ from ‘double’ may alter its value [-Wfloat-conversion]
+D:\Program Files (x86)\project\gate_emt_dts_lin\main.cpp(81,26): warning :          fw[i] = (float)i + 0.1;
+D:\Program Files (x86)\project\gate_emt_dts_lin\main.cpp(81,26): warning :                  ~~~~~~~~~^~~~~
+D:\Program Files (x86)\project\gate_emt_dts_lin\main.cpp(78,12): warning : unused variable ‘fr’ [-Wunused-variable]
+D:\Program Files (x86)\project\gate_emt_dts_lin\main.cpp(78,12): warning :      float* fr = new float[100];
+D:\Program Files (x86)\project\gate_emt_dts_lin\main.cpp(78,12): warning :             ^~
+D:\Program Files (x86)\project\gate_emt_dts_lin\main.cpp(9,12): warning : ‘int rcvfunc(void*, Value&, int32_t)’ defined but not used [-Wunused-function]
+D:\Program Files (x86)\project\gate_emt_dts_lin\main.cpp(9,12): warning :  static int rcvfunc(void* argPtr, Value & value, int32_t chnlId)
+D:\Program Files (x86)\project\gate_emt_dts_lin\main.cpp(9,12): warning :             ^~~~~~~
   tcp_unitL.cpp
 D:\Program Files (x86)\project\gate_emt_dts_lin\tcp_unitL.cpp(82,77): warning : suggest parentheses around ‘&&’ within ‘||’ [-Wparentheses]
 D:\Program Files (x86)\project\gate_emt_dts_lin\tcp_unitL.cpp(82,77): warning :          if (str_info == "[List]" || res_read == EOF || str_info == "[GATE]" && listunitgate == NULL)
