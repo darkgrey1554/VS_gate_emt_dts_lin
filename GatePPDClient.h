@@ -6,6 +6,9 @@
 #include <pthread.h>
 #include <vector>
 
+#define TIMEDEV 20
+
+static int FuncRcvPPD(void* argPtr, Value& value, int32_t chnlId);
 
 enum class TypeSignalPPD
 {
@@ -55,10 +58,14 @@ class GatePPDClient
 	pthread_mutex_t mutex_discrete_out = PTHREAD_MUTEX_INITIALIZER;
 	pthread_mutex_t mutex_discrete_in = PTHREAD_MUTEX_INITIALIZER;
 
+	std::thread threadWriteServerDTS;
+
 	int SizeAnalogDataOut = 0;
 	int SizeAnalogDataIn = 0;
 	int SizeDiscreteDataOut = 0;
 	int SizeDiscreteDataIn = 0;
+
+	int channel = 0;
 
 	std::vector<FrequencySndData> SndAnalogData;
 	std::vector<FrequencySndData> SndDiscreteData;
@@ -68,7 +75,8 @@ class GatePPDClient
 	int statusInitClient = 0;
 
 	int read_config_file(const char* Namefile);
-	static int FuncRcvPPD(void* argPtr, Value& value, int32_t chnlId);
+	friend int FuncRcvPPD(void* argPtr, Value& value, int32_t chnlId);
+	int FuncWriteServerDTS();
 
     public:
 
@@ -81,6 +89,8 @@ class GatePPDClient
 		int WriteDataInPPD(TypeSignalPPD type_signal, void* buf, int offset, int size);
 		int startTransferPPD();
 		~GatePPDClient();
+
+		int sendvalana(int indx, float val);
 
 
 

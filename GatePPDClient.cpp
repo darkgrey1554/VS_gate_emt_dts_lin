@@ -161,7 +161,7 @@ int GatePPDClient::InitClientPPD(const char* filename)
         return -1;
     }
     bufDiscreteOut = new int[result];
-    memset(bufAnalogOut, 0, sizeof(bufDiscreteOut));
+    memset(bufDiscreteOut, 0, sizeof(bufDiscreteOut));
 
     result = client->getSndAnaNum();
     if (result == 0)
@@ -175,7 +175,7 @@ int GatePPDClient::InitClientPPD(const char* filename)
         return -1;
     }
     bufAnalogIn = new float[result];
-    memset(bufAnalogOut, 0, sizeof(bufAnalogIn));
+    memset(bufAnalogIn, 0, sizeof(bufAnalogIn));
 
     result = client->getSndIntNum();
     if (result == 0)
@@ -189,21 +189,102 @@ int GatePPDClient::InitClientPPD(const char* filename)
         return -1;
     }
     bufDiscreteIn = new int[result];
-    memset(bufAnalogOut, 0, sizeof(bufDiscreteIn));
+    memset(bufDiscreteIn, 0, sizeof(bufDiscreteIn));
+
+    statusInitClient = 1;
+    threadWriteServerDTS = std::thread(&GatePPDClient::FuncWriteServerDTS,this);
+
     return 0;    
 }
 
 
-int GatePPDClient::FuncRcvPPD(void* argPtr, Value& value, int32_t chnlId)
+static int FuncRcvPPD(void* argPtr, Value& value, int32_t chnlId)
 {
-    return 1;
+    GatePPDClient* gate = (GatePPDClient*)argPtr;
+
+    float* ibuff;
+    int* ibufi;
+
+    if (gate->channel != chnlId) return 1;
+    
+    switch (value.type)
+    {
+    case Ana_VT:
+    {
+        AData* dataPtr = NULL;
+        value.getData(dataPtr);
+
+        if (gate->statusInitClient != 1) break;
+        if (value.idx > gate->SizeAnalogDataOut)
+        {
+            std::cout << "ERROR BAD ANALOG VALUE" << std::endl;
+            return -1;
+        }
+        ibuff = gate->bufAnalogOut;
+        ibuff += value.idx;
+        pthread_mutex_lock(&gate->mutex_analog_out);
+        *ibuff = (dataPtr->value);
+        pthread_mutex_unlock(&gate->mutex_analog_out);
+    }
+    break;
+
+    case Bin_VT:
+    {
+        BData* dataPtr = NULL;
+        value.getData(dataPtr);
+
+        if (gate->statusInitClient != 1) break;
+        std::cout << "RECEIVE CH[" << chnlId << "] BIN[" << value.idx << "]= " << dataPtr->value << "(" << dataPtr->quality << ")" << std::endl;
+    }
+    break;
+
+    case Int_VT:
+    {
+        IData* dataPtr = NULL;
+        value.getData(dataPtr);
+        
+        if (gate->statusInitClient != 1) break;
+        if (value.idx > gate->SizeDiscreteDataOut)
+        {
+            std::cout << "ERROR BAD ANALOG VALUE" << std::endl;
+            return -1;
+        }
+        ibufi = gate->bufDiscreteOut;
+        ibufi += value.idx;
+        pthread_mutex_lock(&gate->mutex_discrete_out);
+        *ibufi = (dataPtr->value);
+        pthread_mutex_unlock(&gate->mutex_discrete_out);
+    
+    }
+    break;
+
+    case Grp_VT:
+    {
+        GData* dataPtr = NULL;
+        value.getData(dataPtr);
+        std::cout << "RECEIVE CH[" << chnlId << "] GRP[" << value.idx << "] (GT:" << dataPtr->groupType << " GL:" << dataPtr->size << std::endl;
+    }
+    break;
+
+    default:
+        break;
+    }
+
+    return 0;
+}
+
+int GatePPDClient::sendvalana(int indx, float val)
+{
+    Value value;
+    makeAValue(&value, indx, 1, val);
+    client->put(value);
 }
 
 
 
 GatePPDClient::GatePPDClient()
 {
-	client = new DTSClient(GatePPDClient::FuncRcvPPD);
+	client = new DTSClient(FuncRcvPPD, this);
 	if (client->getState() == 0)
 	{
 		std::cout << "GATE CONNECT WITH DTS" << std::endl;
@@ -261,7 +342,8 @@ int GatePPDClient::ReadDataFromPPD(TypeSignalPPD type_signal, void* buf, int off
             return -1;
         }
         float* ibuf=(float*)buf;
-        float* jbuf = bufAnalogOut+offset;
+        float* jbuf = bufAnalogOut;
+        jbuf += offset;
         pthread_mutex_lock(&mutex_analog_out);
         for (int i = 0; i < size; i++)
         {
@@ -274,7 +356,7 @@ int GatePPDClient::ReadDataFromPPD(TypeSignalPPD type_signal, void* buf, int off
     }
     else if (type_signal == TypeSignalPPD::Discrete)
     {
-        if (offset + size > SizeAnalogDataOut)
+        if (offset + size > SizeDiscreteDataOut)
         {
             std::cout << "ReadDataFromPPD ERROR: BAD DATA" << std::endl;
             return -1;
@@ -335,6 +417,84 @@ int GatePPDClient::WriteDataInPPD(TypeSignalPPD type_signal, void* buf, int offs
     }
     return 0;
 };
+
+int GatePPDClient::FuncWriteServerDTS()
+{
+    timeval timenow;
+    float time;
+    float* ibuff;
+    int* ibufi;
+    Value value;
+    int result;
+    float f;
+
+    for (int i = 0; i < SndAnalogData.size(); i++)
+    {
+        gettimeofday(&SndAnalogData[i].TimeLastSnd, NULL);
+    }
+    for (int i = 0; i < SndDiscreteData.size(); i++)
+    {
+        gettimeofday(&SndDiscreteData[i].TimeLastSnd, NULL);
+    }
+
+    for (;;)
+    {
+        gettimeofday(&timenow, NULL);
+
+        for (int i = 0; i < SndAnalogData.size(); i++)
+        {
+            time = (timenow.tv_sec * 1000.+ timenow.tv_usec / 1000.)-(SndAnalogData[i].TimeLastSnd.tv_sec * 1000. + SndAnalogData[i].TimeLastSnd.tv_usec / 1000.);
+
+            if (SndAnalogData[i].frequency < time)
+                std::cout << "DTSCLEINT ERROR SEND ANALOG DATA TIME: " << time << std::endl;
+
+            if (SndAnalogData[i].frequency - TIMEDEV < time)
+            {
+             
+                ibuff = bufAnalogIn;
+                //ibuff += SndAnalogData[i].offset;
+                pthread_mutex_lock(&mutex_analog_in);
+                for (int j = 0; j < SndAnalogData[i].size; j++)
+                {
+                    f = *ibuff;
+                    makeAValue(&value, j, 1, f);
+                    //if (j == 0) std::cout << "index 0 snd " << *ibuff << std::endl;
+                    result = client->put(&value,0);
+                    if (result < 0) std::cout << "DTSCLEINT ERROR SEND ANALOG DATA ERROR"<< client->getError() << time;
+                    ibuff++;
+                    gettimeofday(&SndAnalogData[i].TimeLastSnd, NULL);
+                } 
+                pthread_mutex_unlock(&mutex_analog_in);
+            }
+        }
+
+        for (int i = 0; i < SndDiscreteData.size(); i++)
+        {
+            time = (timenow.tv_sec * 1000.+timenow.tv_usec / 1000.)-(SndDiscreteData[i].TimeLastSnd.tv_sec * 1000. +SndDiscreteData[i].TimeLastSnd.tv_usec / 1000.);
+
+            if (SndDiscreteData[i].frequency < time)
+                std::cout << "DTSCLEINT ERROR SEND DISCRETE DATA TIME: " << time << std::endl;
+
+            if (SndDiscreteData[i].frequency - TIMEDEV < time)
+            {
+
+                ibufi = bufDiscreteIn;
+                ibufi += SndDiscreteData[i].offset;
+                pthread_mutex_lock(&mutex_discrete_in);
+                for (int j = 0; j < SndDiscreteData[i].size; j++)
+                {
+                    makeIValue(&value, j, 1, *ibufi);
+                    result = client->put(&value, 0);
+                    //std::cout << result<<" "<< client->getError() << time << std::endl;
+                    if (result < 0) std::cout << "DTSCLEINT ERROR SEND DISCRETE DATA ERROR" << client->getError() << time <<std::endl;
+                    ibufi++;
+                    gettimeofday(&SndDiscreteData[i].TimeLastSnd, NULL);
+                }
+                pthread_mutex_unlock(&mutex_discrete_in);
+            }
+        }
+    }
+}
 
 
 
