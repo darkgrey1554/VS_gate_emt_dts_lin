@@ -13,7 +13,12 @@ int GatePPDClient::read_config_file(const char* Namefile)
     FrequencySndData infoSndData;
 
     config_file = fopen(Namefile, "r");
-    if (config_file == NULL) return -1;
+    if (config_file == NULL)
+    {
+        fclose(config_file);
+        return -1;
+    }
+        
 
     for (;;)
     {
@@ -30,6 +35,7 @@ int GatePPDClient::read_config_file(const char* Namefile)
             if (res_read == EOF)
             {
                 std::cout << "MAIT\tERROR_FORMATION_OF_CONFIG_FILE" << std::endl;
+                fclose(config_file);
                 return -1;
             }
             break;
@@ -46,12 +52,14 @@ int GatePPDClient::read_config_file(const char* Namefile)
             if (pos[0] == -1)
             {
                 std::cout << "MAINT\tERROR_FORMATION_OF_CONFIG_FILE" << std::endl;
+                fclose(config_file);
                 return -1;
             }
             pos[1] = str_info.find('\t', (size_t)pos[0] + 1);
             if (pos[1] == -1)
             {
                 std::cout << "MAINT\tERROR_FORMATION_OF_CONFIG_FILE" << std::endl;
+                fclose(config_file);
                 return -1;
             }
 
@@ -64,6 +72,7 @@ int GatePPDClient::read_config_file(const char* Namefile)
             if (pos[1] == -1)
             {
                 std::cout << "MAINT\tERROR_FORMATION_OF_CONFIG_FILE" << std::endl;
+                fclose(config_file);
                 return -1;
             }
             helpstr.clear();
@@ -75,6 +84,7 @@ int GatePPDClient::read_config_file(const char* Namefile)
             if (pos[1] == -1)
             {
                 std::cout << "MAINT\tERROR_FORMATION_OF_CONFIG_FILE" << std::endl;
+                fclose(config_file);
                 return -1;
             }
 
@@ -83,6 +93,7 @@ int GatePPDClient::read_config_file(const char* Namefile)
             if (pos[1] == -1)
             {
                 std::cout << "MAINT\tERROR_FORMATION_OF_CONFIG_FILE" << std::endl;
+                fclose(config_file);
                 return -1;
             }
 
@@ -120,9 +131,11 @@ int GatePPDClient::read_config_file(const char* Namefile)
         else if (str_info.substr(0, 5) != "[EMT]" && str_info.substr(0, 6) != "[GATE]" && str_info.substr(0, 4) != "@EMT")
         {
             std::cout << "MAIN\tERROR_FORMATION_OF_CONFIG_FILE" << std::endl;
+            fclose(config_file);
             return -1;
         }
     }
+    fclose(config_file);
     return 0;
 }
 
@@ -222,9 +235,9 @@ static int FuncRcvPPD(void* argPtr, Value& value, int32_t chnlId)
         }
         ibuff = gate->bufAnalogOut;
         ibuff += value.idx;
-        pthread_mutex_lock(&gate->mutex_analog_out);
+        //pthread_mutex_lock(&gate->mutex_analog_out);
         *ibuff = (dataPtr->value);
-        pthread_mutex_unlock(&gate->mutex_analog_out);
+        //pthread_mutex_unlock(&gate->mutex_analog_out);
     }
     break;
 
@@ -344,14 +357,14 @@ int GatePPDClient::ReadDataFromPPD(TypeSignalPPD type_signal, void* buf, int off
         float* ibuf=(float*)buf;
         float* jbuf = bufAnalogOut;
         jbuf += offset;
-        pthread_mutex_lock(&mutex_analog_out);
+        //pthread_mutex_lock(&mutex_analog_out);
         for (int i = 0; i < size; i++)
         {
             *ibuf = *jbuf;
             ibuf++;
             jbuf++;
         }
-        pthread_mutex_unlock(&mutex_analog_out);
+        //pthread_mutex_unlock(&mutex_analog_out);
 
     }
     else if (type_signal == TypeSignalPPD::Discrete)
@@ -386,16 +399,14 @@ int GatePPDClient::WriteDataInPPD(TypeSignalPPD type_signal, void* buf, int offs
         }
         float* ibuf = (float*)buf;
         float* jbuf = bufAnalogIn + offset;
-        pthread_mutex_lock(&mutex_analog_in);
+        //pthread_mutex_lock(&mutex_analog_in);
         for (int i = 0; i < size; i++)
         {
             *jbuf = *ibuf;
             ibuf++;
             jbuf++;
         }
-        pthread_mutex_unlock(&mutex_analog_in);
-
-
+        //pthread_mutex_unlock(&mutex_analog_in);
     }
     else if (type_signal == TypeSignalPPD::Discrete)
     {
@@ -453,7 +464,7 @@ int GatePPDClient::FuncWriteServerDTS()
              
                 ibuff = bufAnalogIn;
                 //ibuff += SndAnalogData[i].offset;
-                pthread_mutex_lock(&mutex_analog_in);
+                //pthread_mutex_lock(&mutex_analog_in);
                 for (int j = 0; j < SndAnalogData[i].size; j++)
                 {
                     f = *ibuff;
@@ -464,7 +475,7 @@ int GatePPDClient::FuncWriteServerDTS()
                     ibuff++;
                     gettimeofday(&SndAnalogData[i].TimeLastSnd, NULL);
                 } 
-                pthread_mutex_unlock(&mutex_analog_in);
+                //pthread_mutex_unlock(&mutex_analog_in);
             }
         }
 

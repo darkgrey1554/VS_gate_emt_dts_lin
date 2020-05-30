@@ -347,7 +347,7 @@ int tcp_server::thread_tcp_server()
         gettimeofday(&timenow, NULL);
         for (;;)
         {
-            count_recv = 0;
+            /*count_recv = 0;
             res_recv = 0;
             for (;;)
             {
@@ -361,15 +361,23 @@ int tcp_server::thread_tcp_server()
                 std::cout << "SERVER ID: " << ID << "/tERROR RECV CODE ERROR: " << std::endl;
                 close(client);
                 break;
-            }
+            }*/
 
             gettimeofday(&timenow, NULL);
             time = (timenow.tv_sec - timelast.tv_sec) * 1000. + (timenow.tv_usec - timelast.tv_usec) / 1000.;
             if (time > set.frequency) std::cout << "SERVER ID: " << ID << "\tWARNING: LIMIT_TIME_MESSENG_READING_EXCEEDED " << time << " ms" << std::endl;
+
+            for (;;)
+            {
+                gettimeofday(&timenow, NULL);
+                time = (timenow.tv_sec - timelast.tv_sec) * 1000. + (timenow.tv_usec - timelast.tv_usec) / 1000.;
+                if (time > set.frequency - TIME_DIV) break;
+                usleep(1000);
+            }
             gettimeofday(&timelast, NULL);
 
-            if (buf_recv[0] == 3)
-            {
+            //if (buf_recv[0] == 3)
+            //{
                 ibuf_send = buf_send;
                 *ibuf_send = 3;
                 for (int i = 0; i < 4; i++)
@@ -391,7 +399,7 @@ int tcp_server::thread_tcp_server()
                 pthread_mutex_unlock(&set.mutex_data);
 
                 send(client, buf_send, set.size_data * s_data + 5, NULL);
-            }
+            //}
         }
     }
 
@@ -480,21 +488,21 @@ int tcp_client::thread_tcp_client()
 
         for (;;)
         {
-            gettimeofday(&timenow, NULL);
-            time = (timenow.tv_sec - timelast.tv_sec) * 1000. + (timenow.tv_usec - timelast.tv_usec) / 1000.;
-            if (time > set.frequency) std::cout << "CLIENT ID: " << ID << "\tWARNING: LIMIT_TIME_MESSENG_READING_EXCEEDED " << time <<" ms"<<std::endl;
+            //gettimeofday(&timenow, NULL);
+            //time = (timenow.tv_sec - timelast.tv_sec) * 1000. + (timenow.tv_usec - timelast.tv_usec) / 1000.;
+            //if (time > set.frequency) std::cout << "CLIENT ID: " << ID << "\tWARNING: LIMIT_TIME_MESSENG_READING_EXCEEDED " << time <<" ms"<<std::endl;
 
-            for (;;)
+            /*for (;;)
             {
                 gettimeofday(&timenow, NULL);
                 time = (timenow.tv_sec - timelast.tv_sec) * 1000. + (timenow.tv_usec - timelast.tv_usec) / 1000.;
                 if (time > set.frequency - TIME_DIV) break;
                 usleep(1000);
-            }
-            gettimeofday(&timelast, NULL);
+            }*/
+            //gettimeofday(&timelast, NULL);
 
-            buf_send[0] = 3;
-            send(server, buf_send, 1, NULL);
+            //buf_send[0] = 3;
+            //send(server, buf_send, 1, NULL);
             count_recv = 0;
             res_recv = 0;
             for (;;)
@@ -512,6 +520,12 @@ int tcp_client::thread_tcp_client()
                 close(server);
                 break;
             }
+
+            gettimeofday(&timenow, NULL);
+            time = (timenow.tv_sec - timelast.tv_sec) * 1000. + (timenow.tv_usec - timelast.tv_usec) / 1000.;
+            if (time > set.frequency) std::cout << "CLIENT ID: " << ID << "\tWARNING: LIMIT_TIME_MESSENG_READING_EXCEEDED " << time <<" ms"<<std::endl;
+            gettimeofday(&timelast, NULL);
+
             ibuf_recv = buf_recv + 5;
             imass_data = set.buf_data;
             
