@@ -8,6 +8,8 @@
 
 
 ///  --- вспомогательные функции --- ///
+
+// --- преобразование IP из строки в число --- ///
 int conver_IPstr_int(const char* str)
 {
     int res = 0;
@@ -43,6 +45,7 @@ std::ostream& operator<<(std::ostream& out, TypeSignal& m)
 {
     if (m == TypeSignal::Analog) out << "Analog";
     if (m == TypeSignal::Discrete) out << "Discrete";
+    if (m == TypeSignal::Binar) out << "Binar";
     if (m == TypeSignal::Nothing) out << "Nothing";
     return out;
 }
@@ -55,6 +58,8 @@ std::ostream& operator<<(std::ostream& out, TypeUnitGate& m)
     return out;
 }
 
+
+/// ф. чтения конфиг файла --- ///
 int read_config_file(const char* Namefile, std::list<ConfigSharedMemory>* listsharmem, std::list<ConfigUnitGate>* listunitgate)
 {
     FILE* config_file = NULL;
@@ -117,6 +122,10 @@ int read_config_file(const char* Namefile, std::list<ConfigSharedMemory>* listsh
             {
                 UnitMem.type_signal = TypeSignal::Analog;
             }
+            else if (str_info.find("Binar") != -1)
+            {
+                UnitMem.type_signal = TypeSignal::Binar;
+            }
             else
             {
                 std::cout << "MAIT\tERROR_FORMATION_OF_CONFIG_FILE" << std::endl;
@@ -171,6 +180,10 @@ int read_config_file(const char* Namefile, std::list<ConfigSharedMemory>* listsh
             else if (str_info.find("Analog") != -1)
             {
                 UnitGate.type_signal = TypeSignal::Analog;
+            }
+            else if (str_info.find("Binar") != -1)
+            {
+                UnitGate.type_signal = TypeSignal::Binar;
             }
             else
             {
@@ -254,7 +267,7 @@ tcp_unit* tcp_unit::create_tcp_unit(ConfigUnitGate config, int id)
 
 /// --- tcp_server --- ///
 
-tcp_server::tcp_server(ConfigUnitGate config, int id)
+tcp_server::tcp_server(ConfigUnitGate config, int id)  /// инициализация сервера
 {
     set = config;
     ID = id;
@@ -262,6 +275,7 @@ tcp_server::tcp_server(ConfigUnitGate config, int id)
     {
         s_data = 4;
     }
+    else if (set.type_signal == TypeSignal::Binar) s_data = 1;
     thread_unit = std::thread(&tcp_server::thread_tcp_server, this);
 }
 
@@ -272,21 +286,21 @@ int tcp_server::thread_tcp_server()
     int client;
     sockaddr_in addr_server;
     sockaddr_in addr_client;
-    int lenght_addr_client = sizeof(addr_client);
+    socklen_t lenght_addr_client = sizeof(addr_client);
     char* buf_recv = new char[10];
     int count_recv = 0;
     int res_recv = 0;
     int num_recv = 1;
-    char* buf_send = new char[set.size_data * s_data + 4 + 1];
+    char* buf_send = new char[set.size_data * s_data + 4 + 1]; // +5 команда кол-во байт
     char* ibuf_send;
     char* imass_data;
     float* f;
     int ip;
-
+    std::string ipclientstr;
     timeval timenow;
     timeval timelast;
     float time;
-
+    unsigned long ipclinet = 0;
 
     listensocket = socket(AF_INET, SOCK_STREAM, 0);
     if (listensocket == -1)
@@ -317,7 +331,6 @@ int tcp_server::thread_tcp_server()
     {
         std::cout << "SERVER ID: " << ID << "\tERROR INITIALIZATION CODE ERROR: " << std::endl;
         close(listensocket);
-        //closesocket(listensocket);
         return -1;
     }
 
@@ -328,7 +341,7 @@ int tcp_server::thread_tcp_server()
 
     for (;;)
     {
-        client = accept(listensocket,NULL,NULL);//client = accept(listensocket, (sockaddr*)&addr_client, &lenght_addr_client);
+        client = accept(listensocket, (sockaddr*)&addr_client, &lenght_addr_client);//client = accept(listensocket,NULL,NULL);//client = accept(listensocket, (sockaddr*)&addr_client, &lenght_addr_client);
         if (client == -1)
         {
             std::cout << "SERVER ID: " << ID << "\tERROR CONNECTION CLIENT CODE ERROR: " << std::endl;
@@ -336,12 +349,28 @@ int tcp_server::thread_tcp_server()
             continue;
         }
 
-        std::cout << "SERVER ID: " << ID << "\tCONNECTION WITH CLIENT IP: "
+        // преобразование числового адресса в строку
+        ipclientstr.clear();
+        for (int i = 0; i < 4; i++)
+        {
+            ipclinet = (addr_client.sin_addr.s_addr >> (8 * i)) & 0xFF;
+            ipclientstr += std::to_string(ipclinet);
+            if (i != 3) ipclientstr += ".";
+        }
+
+
+        std::cout << "SERVER ID: " << ID << "\tCONNECTED WITH CLIENT\tIP: "
+            << ipclientstr.c_str()
+            << "\tPORT: " << addr_client.sin_port << std::endl;
+
+        //std::cout << "SERVER ID: " << ID << "\tCONNECTION WITH CLIENT DONE " << std::endl;
+
+        //std::cout << "SERVER ID: " << ID << "\tCONNECTION WITH CLIENT IP: "
             //<< (int)addr_client.sin_addr.S_un.S_un_b.s_b1 << "."
             //<< (int)addr_client.sin_addr.S_un.S_un_b.s_b2 << "."
             //<< (int)addr_client.sin_addr.S_un.S_un_b.s_b3 << "."
             //<< (int)addr_client.sin_addr.S_un.S_un_b.s_b4
-            << "  PORT: " << addr_client.sin_port << std::endl;
+          //  << "  PORT: " << addr_client.sin_port << std::endl;
 
         gettimeofday(&timelast, NULL);
         gettimeofday(&timenow, NULL);
@@ -398,8 +427,16 @@ int tcp_server::thread_tcp_server()
                 }
                 pthread_mutex_unlock(&set.mutex_data);
 
-                send(client, buf_send, set.size_data * s_data + 5, NULL);
-            //}
+                result = send(client, buf_send, set.size_data * s_data + 5, NULL);
+                if (result == -1)
+                {
+                    std::cout << "SERVER ID: " << ID << "\tERROR CONNECTION WITH SERVER CODE ERROR: " << errno << std::endl;
+                    close(client);
+                    sleep(2);
+                    break;
+                }
+                
+           
         }
     }
 
@@ -427,6 +464,7 @@ tcp_client::tcp_client(ConfigUnitGate config, int id)
     {
         s_data = 4;
     }
+    else if (set.type_signal == TypeSignal::Binar) s_data = 1;
     thread_unit = std::thread(&tcp_client::thread_tcp_client, this);
 }
 
@@ -445,6 +483,7 @@ int tcp_client::thread_tcp_client()
     char* buf_send = new char[1];
     int ip;
     int res_recv;
+    int pp = set.Port;
 
     timeval timenow;
     timeval timelast;
@@ -454,7 +493,7 @@ int tcp_client::thread_tcp_client()
     ip = conver_IPstr_int(set.IP.c_str());
     if (ip == -1)
     {
-        std::cout << "CLIENT ID: " << ID << "/tERROR INITIALIZATION ERROR: BED IP" << std::endl;
+        std::cout << "CLIENT ID: " << ID << "\tERROR INITIALIZATION ERROR: BED IP" << std::endl;
         return -1;
     }
 
@@ -467,7 +506,7 @@ int tcp_client::thread_tcp_client()
         server = socket(AF_INET, SOCK_STREAM, 0);
         if (server == -1)
         {
-            std::cout << "CLIENT ID: " << ID << "/tERROR INITIALIZATION CODE ERROR: " << errno << std::endl;
+            std::cout << "CLIENT ID: " << ID << "\tERROR INITIALIZATION CODE ERROR: " << errno << std::endl;
             return -1;
         }
 
@@ -480,7 +519,7 @@ int tcp_client::thread_tcp_client()
         }
         else
         {
-            std::cout << "CLIENT ID: " << ID << " CONNECTED WITH SERVER IP: " << set.IP << " PORT: " << set.Port << std::endl;
+            std::cout << "CLIENT ID: " << ID << "\tCONNECTED WITH SERVER\tIP: " << set.IP << "\tPORT: " << pp << std::endl;
         }
 
         gettimeofday(&timelast, NULL);
@@ -512,31 +551,36 @@ int tcp_client::thread_tcp_client()
                 count_recv += res_recv;
                 if (count_recv < 5) continue;
                 num_recv = *((int*)(buf_recv + 1));
-                if (count_recv < num_recv * 4 + 5) { continue; }
+                if (count_recv < num_recv * s_data + 5) { continue; }
                 else break;
             }
+
             if (res_recv == 0)
             {
+                std::cout << "CLIENT ID: " << ID << "\tERROR CONNECTION WITH SERVER CODE ERROR: " << errno << std::endl;
                 close(server);
                 break;
             }
 
             gettimeofday(&timenow, NULL);
             time = (timenow.tv_sec - timelast.tv_sec) * 1000. + (timenow.tv_usec - timelast.tv_usec) / 1000.;
-            if (time > set.frequency) std::cout << "CLIENT ID: " << ID << "\tWARNING: LIMIT_TIME_MESSENG_READING_EXCEEDED " << time <<" ms"<<std::endl;
+            //if (time > set.frequency) std::cout << "CLIENT ID: " << ID << "\tWARNING: LIMIT_TIME_MESSENG_READING_EXCEEDED " << time <<" ms"<<std::endl;
             gettimeofday(&timelast, NULL);
-
             ibuf_recv = buf_recv + 5;
             imass_data = set.buf_data;
-            
+            //if (set.type_signal == TypeSignal::Analog) std::cout << "A - " << *(float*)ibuf_recv << std::endl;
+            //if (set.type_signal == TypeSignal::Discrete) std::cout << "D - " << *(int*)ibuf_recv << std::endl;
+            //if (set.type_signal == TypeSignal::Binar) std::cout << "B - " << *(char*)ibuf_recv << std::endl;
             pthread_mutex_lock(&set.mutex_data);
-            for (int i = 0; i < num_recv * 4; i++)
+            //std::cout << *(float*)ibuf_recv << std::endl;
+            for (int i = 0; i < num_recv * s_data; i++)
             {
                 *imass_data = *ibuf_recv;
                 imass_data++;
                 ibuf_recv++;
             }
             pthread_mutex_unlock(&set.mutex_data);
+ 
         }
     }
 

@@ -93,11 +93,11 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalOptions>-pthread -lrt -ldts %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>-pthread -lrt -ldts -static-libstdc++ %(AdditionalOptions)</AdditionalOptions>
       <AdditionalIncludeDirectories>D:\Program Files %28x86%29\project\gate_emt_dts_lin\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
-      <AdditionalOptions>-pthread %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>-pthread -static-libstdc++ %(AdditionalOptions)</AdditionalOptions>
       <AdditionalLibraryDirectories>D:\Program Files %28x86%29\project\gate_emt_dts_lin\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
       <LibraryDependencies>dts;rt;%(LibraryDependencies)</LibraryDependencies>

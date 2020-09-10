@@ -1,130 +1,141 @@
 ﻿  Проверка исходных файлов
-  Удаленное копирование исходных файлов в "192.168.109.128"
+  Удаленное копирование исходных файлов в "192.168.12.128"
   Проверка архитектуры
   Проверка архитектуры
   Запуск удаленной сборки.
   Компиляция исходных файлов:
-  GatePPDClient.cpp
-D:\Program Files (x86)\project\gate_emt_dts_lin\GatePPDClient.cpp(51,35): warning : conversion to ‘int’ from ‘std::__cxx11::basic_string<char>::size_type {aka long unsigned int}’ may alter its value [-Wconversion]
-D:\Program Files (x86)\project\gate_emt_dts_lin\GatePPDClient.cpp(51,35): warning :              pos[0] = str_info.find('\t', 0);
-D:\Program Files (x86)\project\gate_emt_dts_lin\GatePPDClient.cpp(51,35): warning :                       ~~~~~~~~~~~~~^~~~~~~~~
-D:\Program Files (x86)\project\gate_emt_dts_lin\GatePPDClient.cpp(58,35): warning : conversion to ‘int’ from ‘std::__cxx11::basic_string<char>::size_type {aka long unsigned int}’ may alter its value [-Wconversion]
-D:\Program Files (x86)\project\gate_emt_dts_lin\GatePPDClient.cpp(58,35): warning :              pos[1] = str_info.find('\t', (size_t)pos[0] + 1);
-D:\Program Files (x86)\project\gate_emt_dts_lin\GatePPDClient.cpp(58,35): warning :                       ~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~
-D:\Program Files (x86)\project\gate_emt_dts_lin\GatePPDClient.cpp(71,35): warning : conversion to ‘int’ from ‘std::__cxx11::basic_string<char>::size_type {aka long unsigned int}’ may alter its value [-Wconversion]
-D:\Program Files (x86)\project\gate_emt_dts_lin\GatePPDClient.cpp(71,35): warning :              pos[1] = str_info.find('\t', (size_t)pos[0] + 1);
-D:\Program Files (x86)\project\gate_emt_dts_lin\GatePPDClient.cpp(71,35): warning :                       ~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~
-D:\Program Files (x86)\project\gate_emt_dts_lin\GatePPDClient.cpp(83,35): warning : conversion to ‘int’ from ‘std::__cxx11::basic_string<char>::size_type {aka long unsigned int}’ may alter its value [-Wconversion]
-D:\Program Files (x86)\project\gate_emt_dts_lin\GatePPDClient.cpp(83,35): warning :              pos[1] = str_info.find('\t', (size_t)pos[0] + 1);
-D:\Program Files (x86)\project\gate_emt_dts_lin\GatePPDClient.cpp(83,35): warning :                       ~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~
-D:\Program Files (x86)\project\gate_emt_dts_lin\GatePPDClient.cpp(92,35): warning : conversion to ‘int’ from ‘std::__cxx11::basic_string<char>::size_type {aka long unsigned int}’ may alter its value [-Wconversion]
-D:\Program Files (x86)\project\gate_emt_dts_lin\GatePPDClient.cpp(92,35): warning :              pos[1] = str_info.find('\t', (size_t)pos[0] + 1);
-D:\Program Files (x86)\project\gate_emt_dts_lin\GatePPDClient.cpp(92,35): warning :                       ~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~
-D:\Program Files (x86)\project\gate_emt_dts_lin\GatePPDClient.cpp(105,41): warning : comparison between signed and unsigned integer expressions [-Wsign-compare]
-D:\Program Files (x86)\project\gate_emt_dts_lin\GatePPDClient.cpp(105,41): warning :              if (str_info.find("Analog") != -1)
-D:\Program Files (x86)\project\gate_emt_dts_lin\GatePPDClient.cpp(105,41): warning :                  ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~
-D:\Program Files (x86)\project\gate_emt_dts_lin\GatePPDClient.cpp(107,44): warning : comparison between signed and unsigned integer expressions [-Wsign-compare]
-D:\Program Files (x86)\project\gate_emt_dts_lin\GatePPDClient.cpp(107,44): warning :                  if (str_info.find("Input") != -1)
-D:\Program Files (x86)\project\gate_emt_dts_lin\GatePPDClient.cpp(107,44): warning :                      ~~~~~~~~~~~~~~~~~~~~~~~^~~~~
-D:\Program Files (x86)\project\gate_emt_dts_lin\GatePPDClient.cpp(112,50): warning : comparison between signed and unsigned integer expressions [-Wsign-compare]
-D:\Program Files (x86)\project\gate_emt_dts_lin\GatePPDClient.cpp(112,50): warning :                  else if (str_info.find("Output") != -1)
-D:\Program Files (x86)\project\gate_emt_dts_lin\GatePPDClient.cpp(112,50): warning :                           ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~
-D:\Program Files (x86)\project\gate_emt_dts_lin\GatePPDClient.cpp(117,48): warning : comparison between signed and unsigned integer expressions [-Wsign-compare]
-D:\Program Files (x86)\project\gate_emt_dts_lin\GatePPDClient.cpp(117,48): warning :              else if (str_info.find("Discrete") != -1)
-D:\Program Files (x86)\project\gate_emt_dts_lin\GatePPDClient.cpp(117,48): warning :                       ~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~
-D:\Program Files (x86)\project\gate_emt_dts_lin\GatePPDClient.cpp(119,44): warning : comparison between signed and unsigned integer expressions [-Wsign-compare]
-D:\Program Files (x86)\project\gate_emt_dts_lin\GatePPDClient.cpp(119,44): warning :                  if (str_info.find("Input") != -1)
-D:\Program Files (x86)\project\gate_emt_dts_lin\GatePPDClient.cpp(119,44): warning :                      ~~~~~~~~~~~~~~~~~~~~~~~^~~~~
-D:\Program Files (x86)\project\gate_emt_dts_lin\GatePPDClient.cpp(124,50): warning : comparison between signed and unsigned integer expressions [-Wsign-compare]
-D:\Program Files (x86)\project\gate_emt_dts_lin\GatePPDClient.cpp(124,50): warning :                  else if (str_info.find("Output") != -1)
-D:\Program Files (x86)\project\gate_emt_dts_lin\GatePPDClient.cpp(124,50): warning :                           ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~
-D:\Program Files (x86)\project\gate_emt_dts_lin\GatePPDClient.cpp(163,35): warning : argument to ‘sizeof’ in ‘void* memset(void*, int, size_t)’ call is the same expression as the destination; did you mean to dereference it? [-Wsizeof-pointer-memaccess]
-D:\Program Files (x86)\project\gate_emt_dts_lin\GatePPDClient.cpp(163,35): warning :      memset(bufAnalogOut, 0, sizeof(bufAnalogOut));
-D:\Program Files (x86)\project\gate_emt_dts_lin\GatePPDClient.cpp(163,35): warning :                                    ^
-D:\Program Files (x86)\project\gate_emt_dts_lin\GatePPDClient.cpp(177,37): warning : argument to ‘sizeof’ in ‘void* memset(void*, int, size_t)’ call is the same expression as the destination; did you mean to dereference it? [-Wsizeof-pointer-memaccess]
-D:\Program Files (x86)\project\gate_emt_dts_lin\GatePPDClient.cpp(177,37): warning :      memset(bufDiscreteOut, 0, sizeof(bufDiscreteOut));
-D:\Program Files (x86)\project\gate_emt_dts_lin\GatePPDClient.cpp(177,37): warning :                                      ^
-D:\Program Files (x86)\project\gate_emt_dts_lin\GatePPDClient.cpp(191,34): warning : argument to ‘sizeof’ in ‘void* memset(void*, int, size_t)’ call is the same expression as the destination; did you mean to dereference it? [-Wsizeof-pointer-memaccess]
-D:\Program Files (x86)\project\gate_emt_dts_lin\GatePPDClient.cpp(191,34): warning :      memset(bufAnalogIn, 0, sizeof(bufAnalogIn));
-D:\Program Files (x86)\project\gate_emt_dts_lin\GatePPDClient.cpp(191,34): warning :                                   ^
-D:\Program Files (x86)\project\gate_emt_dts_lin\GatePPDClient.cpp(205,36): warning : argument to ‘sizeof’ in ‘void* memset(void*, int, size_t)’ call is the same expression as the destination; did you mean to dereference it? [-Wsizeof-pointer-memaccess]
-D:\Program Files (x86)\project\gate_emt_dts_lin\GatePPDClient.cpp(205,36): warning :      memset(bufDiscreteIn, 0, sizeof(bufDiscreteIn));
-D:\Program Files (x86)\project\gate_emt_dts_lin\GatePPDClient.cpp(205,36): warning :                                     ^
-D:\Program Files (x86)\project\gate_emt_dts_lin\GatePPDClient.cpp(294,1): warning : no return statement in function returning non-void [-Wreturn-type]
-D:\Program Files (x86)\project\gate_emt_dts_lin\GatePPDClient.cpp(294,1): warning :  }
-D:\Program Files (x86)\project\gate_emt_dts_lin\GatePPDClient.cpp(294,1): warning :  ^
-D:\Program Files (x86)\project\gate_emt_dts_lin\GatePPDClient.cpp(442,23): warning : comparison between signed and unsigned integer expressions [-Wsign-compare]
-D:\Program Files (x86)\project\gate_emt_dts_lin\GatePPDClient.cpp(442,23): warning :      for (int i = 0; i < SndAnalogData.size(); i++)
-D:\Program Files (x86)\project\gate_emt_dts_lin\GatePPDClient.cpp(442,23): warning :                      ~~^~~~~~~~~~~~~~~~~~~~~~
-D:\Program Files (x86)\project\gate_emt_dts_lin\GatePPDClient.cpp(446,23): warning : comparison between signed and unsigned integer expressions [-Wsign-compare]
-D:\Program Files (x86)\project\gate_emt_dts_lin\GatePPDClient.cpp(446,23): warning :      for (int i = 0; i < SndDiscreteData.size(); i++)
-D:\Program Files (x86)\project\gate_emt_dts_lin\GatePPDClient.cpp(446,23): warning :                      ~~^~~~~~~~~~~~~~~~~~~~~~~~
-D:\Program Files (x86)\project\gate_emt_dts_lin\GatePPDClient.cpp(455,27): warning : comparison between signed and unsigned integer expressions [-Wsign-compare]
-D:\Program Files (x86)\project\gate_emt_dts_lin\GatePPDClient.cpp(455,27): warning :          for (int i = 0; i < SndAnalogData.size(); i++)
-D:\Program Files (x86)\project\gate_emt_dts_lin\GatePPDClient.cpp(455,27): warning :                          ~~^~~~~~~~~~~~~~~~~~~~~~
-D:\Program Files (x86)\project\gate_emt_dts_lin\GatePPDClient.cpp(457,29): warning : conversion to ‘double’ from ‘__time_t {aka long int}’ may alter its value [-Wconversion]
-D:\Program Files (x86)\project\gate_emt_dts_lin\GatePPDClient.cpp(457,29): warning :              time = (timenow.tv_sec * 1000.+ timenow.tv_usec / 1000.)-(SndAnalogData[i].TimeLastSnd.tv_sec * 1000. + SndAnalogData[i].TimeLastSnd.tv_usec / 1000.);
-D:\Program Files (x86)\project\gate_emt_dts_lin\GatePPDClient.cpp(457,29): warning :                      ~~~~~~~~^~~~~~
-D:\Program Files (x86)\project\gate_emt_dts_lin\GatePPDClient.cpp(457,53): warning : conversion to ‘double’ from ‘__suseconds_t {aka long int}’ may alter its value [-Wconversion]
-D:\Program Files (x86)\project\gate_emt_dts_lin\GatePPDClient.cpp(457,53): warning :              time = (timenow.tv_sec * 1000.+ timenow.tv_usec / 1000.)-(SndAnalogData[i].TimeLastSnd.tv_sec * 1000. + SndAnalogData[i].TimeLastSnd.tv_usec / 1000.);
-D:\Program Files (x86)\project\gate_emt_dts_lin\GatePPDClient.cpp(457,53): warning :                                              ~~~~~~~~^~~~~~~
-D:\Program Files (x86)\project\gate_emt_dts_lin\GatePPDClient.cpp(457,100): warning : conversion to ‘double’ from ‘__time_t {aka long int}’ may alter its value [-Wconversion]
-D:\Program Files (x86)\project\gate_emt_dts_lin\GatePPDClient.cpp(457,100): warning :              time = (timenow.tv_sec * 1000.+ timenow.tv_usec / 1000.)-(SndAnalogData[i].TimeLastSnd.tv_sec * 1000. + SndAnalogData[i].TimeLastSnd.tv_usec / 1000.);
-D:\Program Files (x86)\project\gate_emt_dts_lin\GatePPDClient.cpp(457,146): warning : conversion to ‘double’ from ‘__suseconds_t {aka long int}’ may alter its value [-Wconversion]
-D:\Program Files (x86)\project\gate_emt_dts_lin\GatePPDClient.cpp(457,146): warning :              time = (timenow.tv_sec * 1000.+ timenow.tv_usec / 1000.)-(SndAnalogData[i].TimeLastSnd.tv_sec * 1000. + SndAnalogData[i].TimeLastSnd.tv_usec / 1000.);
-D:\Program Files (x86)\project\gate_emt_dts_lin\GatePPDClient.cpp(457,69): warning : conversion to ‘float’ from ‘double’ may alter its value [-Wfloat-conversion]
-D:\Program Files (x86)\project\gate_emt_dts_lin\GatePPDClient.cpp(457,69): warning :              time = (timenow.tv_sec * 1000.+ timenow.tv_usec / 1000.)-(SndAnalogData[i].TimeLastSnd.tv_sec * 1000. + SndAnalogData[i].TimeLastSnd.tv_usec / 1000.);
-D:\Program Files (x86)\project\gate_emt_dts_lin\GatePPDClient.cpp(457,69): warning :                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-D:\Program Files (x86)\project\gate_emt_dts_lin\GatePPDClient.cpp(459,34): warning : conversion to ‘float’ from ‘int’ may alter its value [-Wconversion]
-D:\Program Files (x86)\project\gate_emt_dts_lin\GatePPDClient.cpp(459,34): warning :              if (SndAnalogData[i].frequency < time)
-D:\Program Files (x86)\project\gate_emt_dts_lin\GatePPDClient.cpp(462,44): warning : conversion to ‘float’ from ‘int’ may alter its value [-Wconversion]
-D:\Program Files (x86)\project\gate_emt_dts_lin\GatePPDClient.cpp(462,44): warning :              if (SndAnalogData[i].frequency - TIMEDEV < time)
-D:\Program Files (x86)\project\gate_emt_dts_lin\GatePPDClient.cpp(482,27): warning : comparison between signed and unsigned integer expressions [-Wsign-compare]
-D:\Program Files (x86)\project\gate_emt_dts_lin\GatePPDClient.cpp(482,27): warning :          for (int i = 0; i < SndDiscreteData.size(); i++)
-D:\Program Files (x86)\project\gate_emt_dts_lin\GatePPDClient.cpp(482,27): warning :                          ~~^~~~~~~~~~~~~~~~~~~~~~~~
-D:\Program Files (x86)\project\gate_emt_dts_lin\GatePPDClient.cpp(484,29): warning : conversion to ‘double’ from ‘__time_t {aka long int}’ may alter its value [-Wconversion]
-D:\Program Files (x86)\project\gate_emt_dts_lin\GatePPDClient.cpp(484,29): warning :              time = (timenow.tv_sec * 1000.+timenow.tv_usec / 1000.)-(SndDiscreteData[i].TimeLastSnd.tv_sec * 1000. +SndDiscreteData[i].TimeLastSnd.tv_usec / 1000.);
-D:\Program Files (x86)\project\gate_emt_dts_lin\GatePPDClient.cpp(484,29): warning :                      ~~~~~~~~^~~~~~
-D:\Program Files (x86)\project\gate_emt_dts_lin\GatePPDClient.cpp(484,52): warning : conversion to ‘double’ from ‘__suseconds_t {aka long int}’ may alter its value [-Wconversion]
-D:\Program Files (x86)\project\gate_emt_dts_lin\GatePPDClient.cpp(484,52): warning :              time = (timenow.tv_sec * 1000.+timenow.tv_usec / 1000.)-(SndDiscreteData[i].TimeLastSnd.tv_sec * 1000. +SndDiscreteData[i].TimeLastSnd.tv_usec / 1000.);
-D:\Program Files (x86)\project\gate_emt_dts_lin\GatePPDClient.cpp(484,52): warning :                                             ~~~~~~~~^~~~~~~
-D:\Program Files (x86)\project\gate_emt_dts_lin\GatePPDClient.cpp(484,101): warning : conversion to ‘double’ from ‘__time_t {aka long int}’ may alter its value [-Wconversion]
-D:\Program Files (x86)\project\gate_emt_dts_lin\GatePPDClient.cpp(484,101): warning :              time = (timenow.tv_sec * 1000.+timenow.tv_usec / 1000.)-(SndDiscreteData[i].TimeLastSnd.tv_sec * 1000. +SndDiscreteData[i].TimeLastSnd.tv_usec / 1000.);
-D:\Program Files (x86)\project\gate_emt_dts_lin\GatePPDClient.cpp(484,148): warning : conversion to ‘double’ from ‘__suseconds_t {aka long int}’ may alter its value [-Wconversion]
-D:\Program Files (x86)\project\gate_emt_dts_lin\GatePPDClient.cpp(484,148): warning :              time = (timenow.tv_sec * 1000.+timenow.tv_usec / 1000.)-(SndDiscreteData[i].TimeLastSnd.tv_sec * 1000. +SndDiscreteData[i].TimeLastSnd.tv_usec / 1000.);
-D:\Program Files (x86)\project\gate_emt_dts_lin\GatePPDClient.cpp(484,68): warning : conversion to ‘float’ from ‘double’ may alter its value [-Wfloat-conversion]
-D:\Program Files (x86)\project\gate_emt_dts_lin\GatePPDClient.cpp(484,68): warning :              time = (timenow.tv_sec * 1000.+timenow.tv_usec / 1000.)-(SndDiscreteData[i].TimeLastSnd.tv_sec * 1000. +SndDiscreteData[i].TimeLastSnd.tv_usec / 1000.);
-D:\Program Files (x86)\project\gate_emt_dts_lin\GatePPDClient.cpp(484,68): warning :                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-D:\Program Files (x86)\project\gate_emt_dts_lin\GatePPDClient.cpp(486,36): warning : conversion to ‘float’ from ‘int’ may alter its value [-Wconversion]
-D:\Program Files (x86)\project\gate_emt_dts_lin\GatePPDClient.cpp(486,36): warning :              if (SndDiscreteData[i].frequency < time)
-D:\Program Files (x86)\project\gate_emt_dts_lin\GatePPDClient.cpp(489,46): warning : conversion to ‘float’ from ‘int’ may alter its value [-Wconversion]
-D:\Program Files (x86)\project\gate_emt_dts_lin\GatePPDClient.cpp(489,46): warning :              if (SndDiscreteData[i].frequency - TIMEDEV < time)
-  main.cpp
-D:\Program Files (x86)\project\gate_emt_dts_lin\main.cpp(110,5): warning : "/*" within comment [-Wcomment]
-D:\Program Files (x86)\project\gate_emt_dts_lin\main.cpp(110,5): warning :      /*InfobufPPD ser;
-D:\Program Files (x86)\project\gate_emt_dts_lin\main.cpp(28,23): warning : comparison between signed and unsigned integer expressions [-Wsign-compare]
-D:\Program Files (x86)\project\gate_emt_dts_lin\main.cpp(28,23): warning :      for (int i = 0; i < gatePPD->SndAnalogData.size(); i++)
-D:\Program Files (x86)\project\gate_emt_dts_lin\main.cpp(28,23): warning :                      ~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-D:\Program Files (x86)\project\gate_emt_dts_lin\main.cpp(47,16): warning : conversion to ‘float’ from ‘int’ may alter its value [-Wconversion]
-D:\Program Files (x86)\project\gate_emt_dts_lin\main.cpp(47,16): warning :          fw[i]=i+1;
-D:\Program Files (x86)\project\gate_emt_dts_lin\main.cpp(47,16): warning :                ~^~
-D:\Program Files (x86)\project\gate_emt_dts_lin\main.cpp(58,32): warning : conversion to ‘double’ from ‘__time_t {aka long int}’ may alter its value [-Wconversion]
-D:\Program Files (x86)\project\gate_emt_dts_lin\main.cpp(58,32): warning :          time = (timenow.tv_sec - timelast.tv_sec) * 1000. + (timenow.tv_usec - timelast.tv_usec) / 1000.;
-D:\Program Files (x86)\project\gate_emt_dts_lin\main.cpp(58,32): warning :                 ~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~
-D:\Program Files (x86)\project\gate_emt_dts_lin\main.cpp(58,78): warning : conversion to ‘double’ from ‘__suseconds_t {aka long int}’ may alter its value [-Wconversion]
-D:\Program Files (x86)\project\gate_emt_dts_lin\main.cpp(58,78): warning :          time = (timenow.tv_sec - timelast.tv_sec) * 1000. + (timenow.tv_usec - timelast.tv_usec) / 1000.;
-D:\Program Files (x86)\project\gate_emt_dts_lin\main.cpp(58,78): warning :                                                              ~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~
-D:\Program Files (x86)\project\gate_emt_dts_lin\main.cpp(58,59): warning : conversion to ‘float’ from ‘double’ may alter its value [-Wfloat-conversion]
-D:\Program Files (x86)\project\gate_emt_dts_lin\main.cpp(58,59): warning :          time = (timenow.tv_sec - timelast.tv_sec) * 1000. + (timenow.tv_usec - timelast.tv_usec) / 1000.;
-D:\Program Files (x86)\project\gate_emt_dts_lin\main.cpp(58,59): warning :                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-D:\Program Files (x86)\project\gate_emt_dts_lin\main.cpp(64,14): warning : conversion to ‘float’ from ‘double’ may alter its value [-Wfloat-conversion]
-D:\Program Files (x86)\project\gate_emt_dts_lin\main.cpp(64,14): warning :          fw[i]+= 0.001;
-D:\Program Files (x86)\project\gate_emt_dts_lin\main.cpp(64,14): warning :          ~~~~~^~~~~~~~
-D:\Program Files (x86)\project\gate_emt_dts_lin\main.cpp(42,10): warning : unused variable ‘ir’ [-Wunused-variable]
-D:\Program Files (x86)\project\gate_emt_dts_lin\main.cpp(42,10): warning :      int* ir = new int[100];
-D:\Program Files (x86)\project\gate_emt_dts_lin\main.cpp(42,10): warning :           ^~
-D:\Program Files (x86)\project\gate_emt_dts_lin\GatePPDClient.h(78,13): warning : ‘int FuncRcvPPD(void*, Value&, int32_t)’ declared ‘static’ but never defined [-Wunused-function]
-D:\Program Files (x86)\project\gate_emt_dts_lin\GatePPDClient.h(78,13): warning :   friend int FuncRcvPPD(void* argPtr, Value& value, int32_t chnlId);
-D:\Program Files (x86)\project\gate_emt_dts_lin\GatePPDClient.h(78,13): warning :              ^~~~~~~~~~
+  tcp_unitL.cpp
+D:\Program Files (x86)\project\gate_emt_dts_lin\tcp_unitL.cpp(83,77): warning : suggest parentheses around ‘&&’ within ‘||’ [-Wparentheses]
+D:\Program Files (x86)\project\gate_emt_dts_lin\tcp_unitL.cpp(83,77): warning :          if (str_info == "[List]" || res_read == EOF || str_info == "[GATE]" && listunitgate == NULL)
+D:\Program Files (x86)\project\gate_emt_dts_lin\tcp_unitL.cpp(83,77): warning :                                                                              ^
+D:\Program Files (x86)\project\gate_emt_dts_lin\tcp_unitL.cpp(99,40): warning : comparison between signed and unsigned integer expressions [-Wsign-compare]
+D:\Program Files (x86)\project\gate_emt_dts_lin\tcp_unitL.cpp(99,40): warning :              if (str_info.find("Input") != -1)
+D:\Program Files (x86)\project\gate_emt_dts_lin\tcp_unitL.cpp(99,40): warning :                  ~~~~~~~~~~~~~~~~~~~~~~~^~~~~
+D:\Program Files (x86)\project\gate_emt_dts_lin\tcp_unitL.cpp(103,46): warning : comparison between signed and unsigned integer expressions [-Wsign-compare]
+D:\Program Files (x86)\project\gate_emt_dts_lin\tcp_unitL.cpp(103,46): warning :              else if (str_info.find("Output") != -1)
+D:\Program Files (x86)\project\gate_emt_dts_lin\tcp_unitL.cpp(103,46): warning :                       ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~
+D:\Program Files (x86)\project\gate_emt_dts_lin\tcp_unitL.cpp(113,43): warning : comparison between signed and unsigned integer expressions [-Wsign-compare]
+D:\Program Files (x86)\project\gate_emt_dts_lin\tcp_unitL.cpp(113,43): warning :              if (str_info.find("Discrete") != -1)
+D:\Program Files (x86)\project\gate_emt_dts_lin\tcp_unitL.cpp(113,43): warning :                  ~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~
+D:\Program Files (x86)\project\gate_emt_dts_lin\tcp_unitL.cpp(117,46): warning : comparison between signed and unsigned integer expressions [-Wsign-compare]
+D:\Program Files (x86)\project\gate_emt_dts_lin\tcp_unitL.cpp(117,46): warning :              else if (str_info.find("Analog") != -1)
+D:\Program Files (x86)\project\gate_emt_dts_lin\tcp_unitL.cpp(117,46): warning :                       ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~
+D:\Program Files (x86)\project\gate_emt_dts_lin\tcp_unitL.cpp(121,45): warning : comparison between signed and unsigned integer expressions [-Wsign-compare]
+D:\Program Files (x86)\project\gate_emt_dts_lin\tcp_unitL.cpp(121,45): warning :              else if (str_info.find("Binar") != -1)
+D:\Program Files (x86)\project\gate_emt_dts_lin\tcp_unitL.cpp(121,45): warning :                       ~~~~~~~~~~~~~~~~~~~~~~~^~~~~
+D:\Program Files (x86)\project\gate_emt_dts_lin\tcp_unitL.cpp(131,35): warning : conversion to ‘int’ from ‘std::__cxx11::basic_string<char>::size_type {aka long unsigned int}’ may alter its value [-Wconversion]
+D:\Program Files (x86)\project\gate_emt_dts_lin\tcp_unitL.cpp(131,35): warning :              pos[0] = str_info.find('\t', 0);
+D:\Program Files (x86)\project\gate_emt_dts_lin\tcp_unitL.cpp(131,35): warning :                       ~~~~~~~~~~~~~^~~~~~~~~
+D:\Program Files (x86)\project\gate_emt_dts_lin\tcp_unitL.cpp(138,35): warning : conversion to ‘int’ from ‘std::__cxx11::basic_string<char>::size_type {aka long unsigned int}’ may alter its value [-Wconversion]
+D:\Program Files (x86)\project\gate_emt_dts_lin\tcp_unitL.cpp(138,35): warning :              pos[1] = str_info.find('\t', (size_t)pos[0] + 1);
+D:\Program Files (x86)\project\gate_emt_dts_lin\tcp_unitL.cpp(138,35): warning :                       ~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~
+D:\Program Files (x86)\project\gate_emt_dts_lin\tcp_unitL.cpp(158,40): warning : comparison between signed and unsigned integer expressions [-Wsign-compare]
+D:\Program Files (x86)\project\gate_emt_dts_lin\tcp_unitL.cpp(158,40): warning :              if (str_info.find("Input") != -1)
+D:\Program Files (x86)\project\gate_emt_dts_lin\tcp_unitL.cpp(158,40): warning :                  ~~~~~~~~~~~~~~~~~~~~~~~^~~~~
+D:\Program Files (x86)\project\gate_emt_dts_lin\tcp_unitL.cpp(162,46): warning : comparison between signed and unsigned integer expressions [-Wsign-compare]
+D:\Program Files (x86)\project\gate_emt_dts_lin\tcp_unitL.cpp(162,46): warning :              else if (str_info.find("Output") != -1)
+D:\Program Files (x86)\project\gate_emt_dts_lin\tcp_unitL.cpp(162,46): warning :                       ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~
+D:\Program Files (x86)\project\gate_emt_dts_lin\tcp_unitL.cpp(172,43): warning : comparison between signed and unsigned integer expressions [-Wsign-compare]
+D:\Program Files (x86)\project\gate_emt_dts_lin\tcp_unitL.cpp(172,43): warning :              if (str_info.find("Discrete") != -1)
+D:\Program Files (x86)\project\gate_emt_dts_lin\tcp_unitL.cpp(172,43): warning :                  ~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~
+D:\Program Files (x86)\project\gate_emt_dts_lin\tcp_unitL.cpp(176,46): warning : comparison between signed and unsigned integer expressions [-Wsign-compare]
+D:\Program Files (x86)\project\gate_emt_dts_lin\tcp_unitL.cpp(176,46): warning :              else if (str_info.find("Analog") != -1)
+D:\Program Files (x86)\project\gate_emt_dts_lin\tcp_unitL.cpp(176,46): warning :                       ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~
+D:\Program Files (x86)\project\gate_emt_dts_lin\tcp_unitL.cpp(180,45): warning : comparison between signed and unsigned integer expressions [-Wsign-compare]
+D:\Program Files (x86)\project\gate_emt_dts_lin\tcp_unitL.cpp(180,45): warning :              else if (str_info.find("Binar") != -1)
+D:\Program Files (x86)\project\gate_emt_dts_lin\tcp_unitL.cpp(180,45): warning :                       ~~~~~~~~~~~~~~~~~~~~~~~^~~~~
+D:\Program Files (x86)\project\gate_emt_dts_lin\tcp_unitL.cpp(190,35): warning : conversion to ‘int’ from ‘std::__cxx11::basic_string<char>::size_type {aka long unsigned int}’ may alter its value [-Wconversion]
+D:\Program Files (x86)\project\gate_emt_dts_lin\tcp_unitL.cpp(190,35): warning :              pos[0] = str_info.find('\t', 0);
+D:\Program Files (x86)\project\gate_emt_dts_lin\tcp_unitL.cpp(190,35): warning :                       ~~~~~~~~~~~~~^~~~~~~~~
+D:\Program Files (x86)\project\gate_emt_dts_lin\tcp_unitL.cpp(196,35): warning : conversion to ‘int’ from ‘std::__cxx11::basic_string<char>::size_type {aka long unsigned int}’ may alter its value [-Wconversion]
+D:\Program Files (x86)\project\gate_emt_dts_lin\tcp_unitL.cpp(196,35): warning :              pos[1] = str_info.find('\t', (size_t)pos[0] + 1);
+D:\Program Files (x86)\project\gate_emt_dts_lin\tcp_unitL.cpp(196,35): warning :                       ~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~
+D:\Program Files (x86)\project\gate_emt_dts_lin\tcp_unitL.cpp(208,35): warning : conversion to ‘int’ from ‘std::__cxx11::basic_string<char>::size_type {aka long unsigned int}’ may alter its value [-Wconversion]
+D:\Program Files (x86)\project\gate_emt_dts_lin\tcp_unitL.cpp(208,35): warning :              pos[1] = str_info.find('\t', (size_t)pos[0] + 1);
+D:\Program Files (x86)\project\gate_emt_dts_lin\tcp_unitL.cpp(208,35): warning :                       ~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~
+D:\Program Files (x86)\project\gate_emt_dts_lin\tcp_unitL.cpp(219,35): warning : conversion to ‘int’ from ‘std::__cxx11::basic_string<char>::size_type {aka long unsigned int}’ may alter its value [-Wconversion]
+D:\Program Files (x86)\project\gate_emt_dts_lin\tcp_unitL.cpp(219,35): warning :              pos[1] = str_info.find('\t', (size_t)pos[0] + 1);
+D:\Program Files (x86)\project\gate_emt_dts_lin\tcp_unitL.cpp(219,35): warning :                       ~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~
+D:\Program Files (x86)\project\gate_emt_dts_lin\tcp_unitL.cpp(230,35): warning : conversion to ‘int’ from ‘std::__cxx11::basic_string<char>::size_type {aka long unsigned int}’ may alter its value [-Wconversion]
+D:\Program Files (x86)\project\gate_emt_dts_lin\tcp_unitL.cpp(230,35): warning :              pos[1] = str_info.find('\t', (size_t)pos[0] + 1);
+D:\Program Files (x86)\project\gate_emt_dts_lin\tcp_unitL.cpp(230,35): warning :                       ~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~
+D:\Program Files (x86)\project\gate_emt_dts_lin\tcp_unitL.cpp(316,38): warning : conversion to ‘uint16_t {aka short unsigned int}’ from ‘int’ may alter its value [-Wconversion]
+D:\Program Files (x86)\project\gate_emt_dts_lin\tcp_unitL.cpp(316,38): warning :      addr_server.sin_port = htons(set.Port);
+D:\Program Files (x86)\project\gate_emt_dts_lin\tcp_unitL.cpp(316,38): warning :                                   ~~~~^~~~
+D:\Program Files (x86)\project\gate_emt_dts_lin\tcp_unitL.cpp(392,36): warning : conversion to ‘double’ from ‘__time_t {aka long int}’ may alter its value [-Wconversion]
+D:\Program Files (x86)\project\gate_emt_dts_lin\tcp_unitL.cpp(392,36): warning :              time = (timenow.tv_sec - timelast.tv_sec) * 1000. + (timenow.tv_usec - timelast.tv_usec) / 1000.;
+D:\Program Files (x86)\project\gate_emt_dts_lin\tcp_unitL.cpp(392,36): warning :                     ~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~
+D:\Program Files (x86)\project\gate_emt_dts_lin\tcp_unitL.cpp(392,82): warning : conversion to ‘double’ from ‘__suseconds_t {aka long int}’ may alter its value [-Wconversion]
+D:\Program Files (x86)\project\gate_emt_dts_lin\tcp_unitL.cpp(392,82): warning :              time = (timenow.tv_sec - timelast.tv_sec) * 1000. + (timenow.tv_usec - timelast.tv_usec) / 1000.;
+D:\Program Files (x86)\project\gate_emt_dts_lin\tcp_unitL.cpp(392,82): warning :                                                                  ~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~
+D:\Program Files (x86)\project\gate_emt_dts_lin\tcp_unitL.cpp(392,63): warning : conversion to ‘float’ from ‘double’ may alter its value [-Wfloat-conversion]
+D:\Program Files (x86)\project\gate_emt_dts_lin\tcp_unitL.cpp(392,63): warning :              time = (timenow.tv_sec - timelast.tv_sec) * 1000. + (timenow.tv_usec - timelast.tv_usec) / 1000.;
+D:\Program Files (x86)\project\gate_emt_dts_lin\tcp_unitL.cpp(392,63): warning :                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+D:\Program Files (x86)\project\gate_emt_dts_lin\tcp_unitL.cpp(393,28): warning : conversion to ‘float’ from ‘int’ may alter its value [-Wconversion]
+D:\Program Files (x86)\project\gate_emt_dts_lin\tcp_unitL.cpp(398,40): warning : conversion to ‘double’ from ‘__time_t {aka long int}’ may alter its value [-Wconversion]
+D:\Program Files (x86)\project\gate_emt_dts_lin\tcp_unitL.cpp(398,40): warning :                  time = (timenow.tv_sec - timelast.tv_sec) * 1000. + (timenow.tv_usec - timelast.tv_usec) / 1000.;
+D:\Program Files (x86)\project\gate_emt_dts_lin\tcp_unitL.cpp(398,40): warning :                         ~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~
+D:\Program Files (x86)\project\gate_emt_dts_lin\tcp_unitL.cpp(398,86): warning : conversion to ‘double’ from ‘__suseconds_t {aka long int}’ may alter its value [-Wconversion]
+D:\Program Files (x86)\project\gate_emt_dts_lin\tcp_unitL.cpp(398,86): warning :                  time = (timenow.tv_sec - timelast.tv_sec) * 1000. + (timenow.tv_usec - timelast.tv_usec) / 1000.;
+D:\Program Files (x86)\project\gate_emt_dts_lin\tcp_unitL.cpp(398,86): warning :                                                                      ~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~
+D:\Program Files (x86)\project\gate_emt_dts_lin\tcp_unitL.cpp(398,67): warning : conversion to ‘float’ from ‘double’ may alter its value [-Wfloat-conversion]
+D:\Program Files (x86)\project\gate_emt_dts_lin\tcp_unitL.cpp(398,67): warning :                  time = (timenow.tv_sec - timelast.tv_sec) * 1000. + (timenow.tv_usec - timelast.tv_usec) / 1000.;
+D:\Program Files (x86)\project\gate_emt_dts_lin\tcp_unitL.cpp(398,67): warning :                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+D:\Program Files (x86)\project\gate_emt_dts_lin\tcp_unitL.cpp(399,42): warning : conversion to ‘float’ from ‘int’ may alter its value [-Wconversion]
+D:\Program Files (x86)\project\gate_emt_dts_lin\tcp_unitL.cpp(399,42): warning :                  if (time > set.frequency - TIME_DIV) break;
+D:\Program Files (x86)\project\gate_emt_dts_lin\tcp_unitL.cpp(426,81): warning : passing NULL to non-pointer argument 4 of ‘ssize_t send(int, const void*, size_t, int)’ [-Wconversion-null]
+D:\Program Files (x86)\project\gate_emt_dts_lin\tcp_unitL.cpp(426,81): warning :                  result = send(client, buf_send, set.size_data * s_data + 5, NULL);
+D:\Program Files (x86)\project\gate_emt_dts_lin\tcp_unitL.cpp(426,81): warning :                                                                                  ^
+D:\Program Files (x86)\project\gate_emt_dts_lin\tcp_unitL.cpp(426,30): warning : conversion to ‘int’ from ‘ssize_t {aka long int}’ may alter its value [-Wconversion]
+D:\Program Files (x86)\project\gate_emt_dts_lin\tcp_unitL.cpp(426,30): warning :                  result = send(client, buf_send, set.size_data * s_data + 5, NULL);
+D:\Program Files (x86)\project\gate_emt_dts_lin\tcp_unitL.cpp(426,30): warning :                           ~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+D:\Program Files (x86)\project\gate_emt_dts_lin\tcp_unitL.cpp(286,11): warning : unused variable ‘buf_recv’ [-Wunused-variable]
+D:\Program Files (x86)\project\gate_emt_dts_lin\tcp_unitL.cpp(286,11): warning :      char* buf_recv = new char[10];
+D:\Program Files (x86)\project\gate_emt_dts_lin\tcp_unitL.cpp(286,11): warning :            ^~~~~~~~
+D:\Program Files (x86)\project\gate_emt_dts_lin\tcp_unitL.cpp(287,9): warning : unused variable ‘count_recv’ [-Wunused-variable]
+D:\Program Files (x86)\project\gate_emt_dts_lin\tcp_unitL.cpp(287,9): warning :      int count_recv = 0;
+D:\Program Files (x86)\project\gate_emt_dts_lin\tcp_unitL.cpp(287,9): warning :          ^~~~~~~~~~
+D:\Program Files (x86)\project\gate_emt_dts_lin\tcp_unitL.cpp(288,9): warning : unused variable ‘res_recv’ [-Wunused-variable]
+D:\Program Files (x86)\project\gate_emt_dts_lin\tcp_unitL.cpp(288,9): warning :      int res_recv = 0;
+D:\Program Files (x86)\project\gate_emt_dts_lin\tcp_unitL.cpp(288,9): warning :          ^~~~~~~~
+D:\Program Files (x86)\project\gate_emt_dts_lin\tcp_unitL.cpp(289,9): warning : unused variable ‘num_recv’ [-Wunused-variable]
+D:\Program Files (x86)\project\gate_emt_dts_lin\tcp_unitL.cpp(289,9): warning :      int num_recv = 1;
+D:\Program Files (x86)\project\gate_emt_dts_lin\tcp_unitL.cpp(289,9): warning :          ^~~~~~~~
+D:\Program Files (x86)\project\gate_emt_dts_lin\tcp_unitL.cpp(293,12): warning : unused variable ‘f’ [-Wunused-variable]
+D:\Program Files (x86)\project\gate_emt_dts_lin\tcp_unitL.cpp(293,12): warning :      float* f;
+D:\Program Files (x86)\project\gate_emt_dts_lin\tcp_unitL.cpp(293,12): warning :             ^
+D:\Program Files (x86)\project\gate_emt_dts_lin\tcp_unitL.cpp(498,38): warning : conversion to ‘uint16_t {aka short unsigned int}’ from ‘int’ may alter its value [-Wconversion]
+D:\Program Files (x86)\project\gate_emt_dts_lin\tcp_unitL.cpp(498,38): warning :      addr_server.sin_port = htons(set.Port);
+D:\Program Files (x86)\project\gate_emt_dts_lin\tcp_unitL.cpp(498,38): warning :                                   ~~~~^~~~
+D:\Program Files (x86)\project\gate_emt_dts_lin\tcp_unitL.cpp(545,108): warning : passing NULL to non-pointer argument 4 of ‘ssize_t recv(int, void*, size_t, int)’ [-Wconversion-null]
+D:\Program Files (x86)\project\gate_emt_dts_lin\tcp_unitL.cpp(545,108): warning :                  res_recv= recv(server, buf_recv + count_recv, set.size_data * s_data + 5 - count_recv, NULL);
+D:\Program Files (x86)\project\gate_emt_dts_lin\tcp_unitL.cpp(545,108): warning :                                                                                                             ^
+D:\Program Files (x86)\project\gate_emt_dts_lin\tcp_unitL.cpp(545,31): warning : conversion to ‘int’ from ‘ssize_t {aka long int}’ may alter its value [-Wconversion]
+D:\Program Files (x86)\project\gate_emt_dts_lin\tcp_unitL.cpp(545,31): warning :                  res_recv= recv(server, buf_recv + count_recv, set.size_data * s_data + 5 - count_recv, NULL);
+D:\Program Files (x86)\project\gate_emt_dts_lin\tcp_unitL.cpp(545,31): warning :                            ~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+D:\Program Files (x86)\project\gate_emt_dts_lin\tcp_unitL.cpp(562,36): warning : conversion to ‘double’ from ‘__time_t {aka long int}’ may alter its value [-Wconversion]
+D:\Program Files (x86)\project\gate_emt_dts_lin\tcp_unitL.cpp(562,36): warning :              time = (timenow.tv_sec - timelast.tv_sec) * 1000. + (timenow.tv_usec - timelast.tv_usec) / 1000.;
+D:\Program Files (x86)\project\gate_emt_dts_lin\tcp_unitL.cpp(562,36): warning :                     ~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~
+D:\Program Files (x86)\project\gate_emt_dts_lin\tcp_unitL.cpp(562,82): warning : conversion to ‘double’ from ‘__suseconds_t {aka long int}’ may alter its value [-Wconversion]
+D:\Program Files (x86)\project\gate_emt_dts_lin\tcp_unitL.cpp(562,82): warning :              time = (timenow.tv_sec - timelast.tv_sec) * 1000. + (timenow.tv_usec - timelast.tv_usec) / 1000.;
+D:\Program Files (x86)\project\gate_emt_dts_lin\tcp_unitL.cpp(562,82): warning :                                                                  ~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~
+D:\Program Files (x86)\project\gate_emt_dts_lin\tcp_unitL.cpp(562,63): warning : conversion to ‘float’ from ‘double’ may alter its value [-Wfloat-conversion]
+D:\Program Files (x86)\project\gate_emt_dts_lin\tcp_unitL.cpp(562,63): warning :              time = (timenow.tv_sec - timelast.tv_sec) * 1000. + (timenow.tv_usec - timelast.tv_usec) / 1000.;
+D:\Program Files (x86)\project\gate_emt_dts_lin\tcp_unitL.cpp(562,63): warning :                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+D:\Program Files (x86)\project\gate_emt_dts_lin\tcp_unitL.cpp(469,9): warning : unused variable ‘result’ [-Wunused-variable]
+D:\Program Files (x86)\project\gate_emt_dts_lin\tcp_unitL.cpp(469,9): warning :      int result = 0;
+D:\Program Files (x86)\project\gate_emt_dts_lin\tcp_unitL.cpp(469,9): warning :          ^~~~~~
+D:\Program Files (x86)\project\gate_emt_dts_lin\tcp_unitL.cpp(472,9): warning : unused variable ‘size_addr’ [-Wunused-variable]
+D:\Program Files (x86)\project\gate_emt_dts_lin\tcp_unitL.cpp(472,9): warning :      int size_addr = sizeof(addr_server);
+D:\Program Files (x86)\project\gate_emt_dts_lin\tcp_unitL.cpp(472,9): warning :          ^~~~~~~~~
+D:\Program Files (x86)\project\gate_emt_dts_lin\tcp_unitL.cpp(479,11): warning : unused variable ‘buf_send’ [-Wunused-variable]
+D:\Program Files (x86)\project\gate_emt_dts_lin\tcp_unitL.cpp(479,11): warning :      char* buf_send = new char[1];
+D:\Program Files (x86)\project\gate_emt_dts_lin\tcp_unitL.cpp(479,11): warning :            ^~~~~~~~
+D:\Program Files (x86)\project\gate_emt_dts_lin\tcp_unitL.cpp(486,11): warning : variable ‘time’ set but not used [-Wunused-but-set-variable]
+D:\Program Files (x86)\project\gate_emt_dts_lin\tcp_unitL.cpp(486,11): warning :      float time;
+D:\Program Files (x86)\project\gate_emt_dts_lin\tcp_unitL.cpp(486,11): warning :            ^~~~
+D:\Program Files (x86)\project\gate_emt_dts_lin\tcp_unitL.cpp(261,1): warning : control reaches end of non-void function [-Wreturn-type]
+D:\Program Files (x86)\project\gate_emt_dts_lin\tcp_unitL.cpp(261,1): warning :  }
+D:\Program Files (x86)\project\gate_emt_dts_lin\tcp_unitL.cpp(261,1): warning :  ^
   Связывание объектов
   gate_emt_dts_lin.vcxproj -> D:\Program Files (x86)\project\gate_emt_dts_lin\bin\x64\Release\gate_emt_dts_lin.out

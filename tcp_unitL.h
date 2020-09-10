@@ -11,7 +11,7 @@
 
 
 
-enum class TypeData
+enum class TypeData  
 {
     Not,
     OutPut,
@@ -22,7 +22,8 @@ enum class TypeSignal
 {
     Nothing,
     Analog,
-    Discrete
+    Discrete,
+    Binar
 };
 
 enum class TypeUnitGate
